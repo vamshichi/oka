@@ -101,7 +101,7 @@ export default function About() {
   {/* Right Image */}
   <div className="flex justify-center">
     <Image
-      src="/images/about-oak.jpg" // Replace with your image path
+      src="/images/about-image.png" // Replace with your image path
       alt="The OAK Project Worship Band"
       width={550}
       height={650}
