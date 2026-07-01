@@ -478,21 +478,21 @@ export default function Hero() {
         {/* ---------------------------------------------------------------------- */}
 
         <motion.p
-          variants={fadeIn}
-          className="
-            mt-10
-            max-w-2xl
-            text-center
-            text-lg
-            italic
-            font-light
-            tracking-[0.18em]
-            text-[#D4AF37]
-            md:text-2xl
-          "
-        >
-          One Heart • One Mission • One King
-        </motion.p>
+  variants={fadeIn}
+  className="
+    mt-10
+    max-w-2xl
+    text-center
+    text-2xl
+    tracking-normal
+    text-[#D4AF37]
+    md:text-4xl
+    font-normal
+    [font-family:var(--font-great-vibes)]
+  "
+>
+  One Heart • One Mission • One King
+</motion.p>
 
         {/* ---------------------------------------------------------------------- */}
         {/*                               DIVIDER                                  */}
@@ -550,7 +550,7 @@ export default function Hero() {
         {/*                               BUTTONS                                  */}
         {/* ---------------------------------------------------------------------- */}
 
-        <motion.div
+        {/* <motion.div
           variants={fadeUp}
           className="
             mt-14
@@ -613,7 +613,7 @@ export default function Hero() {
 
             Watch Vision
           </motion.button>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
 
       

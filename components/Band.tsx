@@ -22,7 +22,7 @@ const members = [
   },
   {
     name: "Jim Prince",
-    role: "Multi-Instrumentalist & Producer",
+    role: "Multi-Instrumentalist",
     instrument: "Piano · Guitar · Bass",
     image: "/images/jim.png",
     bio: "A dynamic producer whose musical journey spans over a decade. With 300+ original productions across pop, rock, classical, folk, and electronic genres — from film scores to global fusion projects.",
@@ -81,7 +81,7 @@ export default function Band() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="reveal text-center mb-20">
-          <p className="text-gold tracking-[0.3em] text-xs uppercase mb-4">The Musicians</p>
+          <p className="text-gold tracking-[0.3em] text-xs uppercase mb-4">The Kingdom Musicians</p>
           <h2 className="font-display text-5xl md:text-6xl font-light text-off-white mb-6">
             Faces Behind the Sound
           </h2>
@@ -110,16 +110,16 @@ export default function Band() {
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent" />
 
                 {/* Tag badge */}
-                <div className="absolute top-4 right-4 px-3 py-1 bg-gold/90 text-ink text-xs font-medium tracking-wider uppercase rounded-sm">
+                {/* <div className="absolute top-4 right-4 px-3 py-1 bg-gold/90 text-ink text-xs font-medium tracking-wider uppercase rounded-sm">
                   {m.tag}
-                </div>
+                </div> */}
 
                 {/* Instrument chips at bottom */}
-                <div className="absolute bottom-4 left-4">
+                {/* <div className="absolute bottom-4 left-4">
                   <p className="text-gold text-xs tracking-widest uppercase">
                     {m.instrument}
                   </p>
-                </div>
+                </div> */}
               </div>
 
               {/* Card body */}
@@ -138,18 +138,18 @@ export default function Band() {
                   <p className="text-warm-gray text-sm leading-relaxed">{m.bio}</p>
                 </div>
 
-                <button className="mt-3 text-gold/60 hover:text-gold text-xs tracking-widest uppercase transition-colors flex items-center gap-1">
+                {/* <button className="mt-3 text-gold/60 hover:text-gold text-xs tracking-widest uppercase transition-colors flex items-center gap-1">
                   {active === i ? "Less" : "Read More"}
                   <span className={`transition-transform duration-300 ${active === i ? "rotate-180" : ""}`}>
                     ↓
                   </span>
-                </button>
+                </button> */}
               </div>
             </div>
           ))}
 
           {/* Ashwin - violinist (no photo provided, decorative card) */}
-          <div className="member-card glass rounded-md overflow-hidden group">
+          {/* <div className="member-card glass rounded-md overflow-hidden group">
             <div className="relative h-72 bg-gradient-to-br from-forest to-ink flex items-center justify-center overflow-hidden">
               <div className="text-center">
                 <p className="font-display text-7xl text-gold/20 mb-3">♩</p>
@@ -170,7 +170,7 @@ export default function Band() {
                 A passionate violinist whose music blends technical mastery with heartfelt expression. Trained in both classical and contemporary styles, Ashwin's unique artistry transforms each performance into a moving experience.
               </p>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

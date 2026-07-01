@@ -10,6 +10,16 @@ exports.id = "vendor-chunks/next";
 exports.ids = ["vendor-chunks/next"];
 exports.modules = {
 
+/***/ "(rsc)/./node_modules/next/font/google/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"Great_Vibes\",\"arguments\":[{\"subsets\":[\"latin\"],\"weight\":\"400\",\"variable\":\"--font-great-vibes\"}],\"variableName\":\"greatVibes\"}":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/next/font/google/target.css?{"path":"app\\layout.tsx","import":"Great_Vibes","arguments":[{"subsets":["latin"],"weight":"400","variable":"--font-great-vibes"}],"variableName":"greatVibes"} ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((module) => {
+
+eval("// Exports\nmodule.exports = {\n\t\"style\": {\"fontFamily\":\"'__Great_Vibes_a10525', '__Great_Vibes_Fallback_a10525'\",\"fontWeight\":400,\"fontStyle\":\"normal\"},\n\t\"className\": \"__className_a10525\",\n\t\"variable\": \"__variable_a10525\"\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKHJzYykvLi9ub2RlX21vZHVsZXMvbmV4dC9mb250L2dvb2dsZS90YXJnZXQuY3NzP3tcInBhdGhcIjpcImFwcFxcXFxsYXlvdXQudHN4XCIsXCJpbXBvcnRcIjpcIkdyZWF0X1ZpYmVzXCIsXCJhcmd1bWVudHNcIjpbe1wic3Vic2V0c1wiOltcImxhdGluXCJdLFwid2VpZ2h0XCI6XCI0MDBcIixcInZhcmlhYmxlXCI6XCItLWZvbnQtZ3JlYXQtdmliZXNcIn1dLFwidmFyaWFibGVOYW1lXCI6XCJncmVhdFZpYmVzXCJ9IiwibWFwcGluZ3MiOiJBQUFBO0FBQ0E7QUFDQSxXQUFXLDZHQUE2RztBQUN4SDtBQUNBO0FBQ0EiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9vYWstcHJvamVjdC8uL25vZGVfbW9kdWxlcy9uZXh0L2ZvbnQvZ29vZ2xlL3RhcmdldC5jc3M/NDE4NCJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBFeHBvcnRzXG5tb2R1bGUuZXhwb3J0cyA9IHtcblx0XCJzdHlsZVwiOiB7XCJmb250RmFtaWx5XCI6XCInX19HcmVhdF9WaWJlc19hMTA1MjUnLCAnX19HcmVhdF9WaWJlc19GYWxsYmFja19hMTA1MjUnXCIsXCJmb250V2VpZ2h0XCI6NDAwLFwiZm9udFN0eWxlXCI6XCJub3JtYWxcIn0sXG5cdFwiY2xhc3NOYW1lXCI6IFwiX19jbGFzc05hbWVfYTEwNTI1XCIsXG5cdFwidmFyaWFibGVcIjogXCJfX3ZhcmlhYmxlX2ExMDUyNVwiXG59O1xuIl0sIm5hbWVzIjpbXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(rsc)/./node_modules/next/font/google/target.css?{\"path\":\"app\\\\layout.tsx\",\"import\":\"Great_Vibes\",\"arguments\":[{\"subsets\":[\"latin\"],\"weight\":\"400\",\"variable\":\"--font-great-vibes\"}],\"variableName\":\"greatVibes\"}\n");
+
+/***/ }),
+
 /***/ "(ssr)/./node_modules/next/dist/api/image.js":
 /*!*********************************************!*\
   !*** ./node_modules/next/dist/api/image.js ***!

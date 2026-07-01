@@ -8,7 +8,7 @@ import { Menu, X } from "lucide-react";
 const navLinks = [
   { href: "#about", label: "About" },
   { href: "#band", label: "The Band" },
-  { href: "#music", label: "Music" },
+  // { href: "#music", label: "Music" },
   { href: "#events", label: "Events" },
   { href: "#contact", label: "Contact" },
 ];
@@ -41,14 +41,14 @@ export default function Navbar() {
             height={52}
             className="rounded-full transition-transform duration-300 group-hover:scale-105"
           />
-          <div className="hidden sm:block">
+          {/* <div className="hidden sm:block">
             <p className="font-display text-xl font-semibold text-off-white leading-none tracking-wide">
               THE OAK PROJECT
             </p>
             <p className="text-xs text-gold tracking-[0.2em] uppercase mt-0.5">
               Gospel Instrumental Band
             </p>
-          </div>
+          </div> */}
         </Link>
 
         {/* Desktop nav */}

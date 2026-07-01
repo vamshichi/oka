@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+// @ts-ignore
 import "./globals.css";
+import { Great_Vibes } from "next/font/google";
+
+export const greatVibes = Great_Vibes({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-great-vibes",
+});
 
 export const metadata: Metadata = {
   title: "The OAK Project — A Gospel Instrumental Band",
@@ -28,7 +36,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="bg-ink text-off-white antialiased">{children}</body>
+      <body className={`bg-ink text-off-white antialiased ${greatVibes.variable}`}>{children}</body>
     </html>
   );
 }

@@ -1,35 +1,44 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+// import { Phone, Mail, Instagram, Youtube } from "lucide-react";
+import {
+  FaRing,
+  FaChurch,
+  FaUsers,
+  FaMicrophoneAlt,
+  FaHandshake,
+  FaStar,
+} from "react-icons/fa";
 
 const events = [
   {
-    icon: "💍",
+    icon: FaRing,
     title: "Weddings",
     desc: "Create an unforgettable atmosphere for your most cherished day with live gospel and soul music.",
   },
   {
-    icon: "⛪",
+    icon: FaChurch,
     title: "Church & Retreats",
     desc: "Spirit-filled worship sessions, prayer meetings, and church retreats elevated through live instrumental worship.",
   },
   {
-    icon: "🎉",
+    icon: FaUsers,
     title: "Private Events",
     desc: "Get-togethers and private gatherings given a unique soundtrack of purpose and joy.",
   },
   {
-    icon: "🎤",
+    icon: FaMicrophoneAlt,
     title: "Gospel Concerts",
     desc: "Full-scale gospel music concerts featuring original compositions and beloved worship favorites.",
   },
   {
-    icon: "🏛️",
+    icon: FaHandshake,
     title: "Conferences",
     desc: "Set the tone for your corporate or ministry conference with music that inspires unity.",
   },
   {
-    icon: "✨",
+    icon: FaStar,
     title: "Special Occasions",
     desc: "Anniversary celebrations, milestone events — any occasion deserving a musical memory.",
   },
@@ -80,18 +89,21 @@ export default function Events() {
 
         {/* Events grid */}
         <div className="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
-          {events.map((e) => (
-            <div
-              key={e.title}
-              className="glass rounded-md p-7 group hover:border-gold/30 hover:-translate-y-1 transition-all duration-400"
-            >
-              <span className="text-4xl mb-5 block">{e.icon}</span>
-              <h3 className="font-display text-xl font-semibold text-off-white mb-3 group-hover:text-gold transition-colors">
-                {e.title}
-              </h3>
-              <p className="text-warm-gray text-sm leading-relaxed">{e.desc}</p>
-            </div>
-          ))}
+          {events.map((e) => {
+            const Icon = e.icon;
+            return (
+              <div
+                key={e.title}
+                className="glass rounded-md p-7 group hover:border-gold/30 hover:-translate-y-1 transition-all duration-400"
+              >
+                <Icon className="text-4xl mb-5 block" />
+                <h3 className="font-display text-xl font-semibold text-off-white mb-3 group-hover:text-gold transition-colors">
+                  {e.title}
+                </h3>
+                <p className="text-warm-gray text-sm leading-relaxed">{e.desc}</p>
+              </div>
+            );
+          })}
         </div>
 
         {/* CTA banner */}
@@ -111,9 +123,9 @@ export default function Events() {
               Ready to add the sound of{" "}
               <span className="italic text-gold">something sacred</span>?
             </p>
-            <p className="text-warm-gray mb-8 max-w-lg mx-auto">
+            {/* <p className="text-warm-gray mb-8 max-w-lg mx-auto">
               Reach out to book The OAK Project for your next event.
-            </p>
+            </p> */}
             <a
               href="#contact"
               className="inline-block px-10 py-4 bg-gold text-ink font-medium text-sm tracking-widest uppercase hover:bg-gold-light transition-all duration-300 rounded-sm"

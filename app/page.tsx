@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
       <About />
       <Band />
-      <Music />
+      {/* <Music /> */}
       <Events />
       <Contact />
       <Footer />
