@@ -6,21 +6,21 @@ import Image from "next/image";
 const pillars = [
   {
     letter: "O",
-    word: "One Heart",
-    sub: "United in Love",
-    desc: "All hearts united as one, worshipping together with humility, faith, and a shared desire to glorify God.",
+    word: "One Anointed Kingdom",
+    sub: "One Heart",
+    desc: "All hearts united as one",
   },
   {
     letter: "A",
-    word: "One Mission",
-    sub: "Purpose in Christ",
-    desc: "United in a mission to lift up the name of Jesus through music, inspiring faith, hope, and worship in every heart.",
+    word: "One Anointed Kingdom",
+    sub: "One Mission",
+    desc: "United in a mission to lift up",
   },
   {
     letter: "K",
-    word: "One King",
-    sub: "Jesus Christ",
-    desc: "Serving one King forever—Jesus Christ. Every song, every note, and every moment exists to honor His Kingdom and His glory.",
+    word: "One Anointed Kingdom",
+    sub: "One King",
+    desc: "serving One King forever",
   },
 ];
 
@@ -64,42 +64,42 @@ export default function About() {
         </div>
 
         {/* About copy */}
-        <div className="reveal grid md:grid-cols-2 gap-16 items-center mb-24">
+        <div className="reveal grid md:grid-cols-1 gap-16 items-center mb-24">
   {/* Left Content */}
   <div>
-    <p className="font-display text-2xl md:text-3xl font-light text-off-white leading-relaxed mb-6 italic">
-      &ldquo;An evolving musical ministry dedicated to glorifying God through
-      excellence, worship, and creativity.&rdquo;
-    </p>
+  <p className="font-display text-2xl md:text-3xl font-light text-off-white leading-relaxed mb-6 italic">
+    &ldquo;The OAK Project is more than a band; it is an evolving musical ministry shaped by prayer, dedication, and creativity.&rdquo;
+  </p>
 
-    <p className="text-warm-gray leading-relaxed mb-5 text-base">
-      The OAK Project is a worship band—an instrumental and vocal ensemble
-      committed to glorifying God through music. Our sound blends gospel,
-      soul, indie, and contemporary influences, creating a worshipful and
-      uplifting musical experience. Rooted in faith, honest storytelling,
-      and unity, our music seeks to minister to hearts across cultures and
-      generations.
-    </p>
+  <p className="text-warm-gray leading-relaxed mb-5 text-base">
+    The OAK Project, a worship band—an instrumental and vocal ensemble
+    committed to glorifying God through music. Our sound blends gospel,
+    soul, indie, and contemporary influences, creating a worshipful and
+    uplifting musical experience. Rooted in honest storytelling, unity,
+    and faith, our music seeks to minister to hearts across cultures and
+    generations.
+  </p>
 
-    <p className="text-warm-gray leading-relaxed mb-5 text-base">
-      Formed by a close-knit collective of musicians and creatives,
-      <strong className="text-off-white"> One Anointed Kingdom (OAK)</strong>
-      reflects our calling to serve God with excellence and use music as a
-      vessel for His presence. Through rich instrumental soundscapes,
-      dynamic arrangements, and heartfelt melodies, we create space for
-      worship, reflection, and spiritual connection.
-    </p>
+  <p className="text-warm-gray leading-relaxed mb-5 text-base">
+    Formed by a close-knit collective of musicians and creatives,
+    <strong className="text-off-white"> OAK</strong> stands for
+    <strong className="text-off-white"> One Anointed Kingdom</strong>—a
+    reflection of our calling to serve God with excellence and to use
+    music as a vessel for His presence. As an instrumental-focused
+    ensemble, we emphasize rich soundscapes, dynamic arrangements, and
+    heartfelt melodies that create space for reflection, worship, and
+    spiritual connection.
+  </p>
 
-    <p className="text-warm-gray leading-relaxed text-base">
-      The OAK Project is more than a band—it is an evolving musical ministry
-      shaped by prayer, dedication, and creativity. Our vision is to create
-      Christ-centered musical experiences that inspire faith, bring hope,
-      and draw people closer to God.
-    </p>
-  </div>
-
+  <p className="text-warm-gray leading-relaxed text-base">
+    The OAK Project is more than a band; it is an evolving musical ministry
+    shaped by prayer, dedication, and creativity. Our vision is to build
+    Christ-centered musical experiences that inspire faith, bring hope,
+    and draw people closer to God.
+  </p>
+</div>
   {/* Right Image */}
-  <div className="flex justify-center">
+  {/* <div className="flex justify-center">
     <Image
       src="/images/about-image.png" // Replace with your image path
       alt="The OAK Project Worship Band"
@@ -107,7 +107,7 @@ export default function About() {
       height={650}
       className="rounded-2xl object-cover shadow-2xl"
     />
-  </div>
+  </div> */}
 </div>
 
         {/* OAK pillars */}

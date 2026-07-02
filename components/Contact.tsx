@@ -58,10 +58,6 @@ export default function Contact() {
             <p className="font-display text-2xl text-off-white font-light mb-2">
               Bookings &amp; Enquiries
             </p>
-            <p className="text-warm-gray mb-8 text-sm">
-              Reach out to Kaleb directly for booking requests, set lists, or
-              any questions about bringing OAK to your event.
-            </p>
 
             <div className="space-y-4 mb-10">
               <a

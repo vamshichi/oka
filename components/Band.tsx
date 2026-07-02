@@ -40,10 +40,18 @@ const members = [
     name: "Abhishek Kingsley",
     role: "Guitarist",
     instrument: "Guitar",
-    image: "/images/abhishek.png",
+    image: "/images/Abhishek-Kingsley.png",
     bio: "A dedicated guitarist whose love for music began inspired by gospel and worship. From church to college fests and weddings, Abhishek weaves faith and artistry into music that uplifts and unites.",
     tag: "Guitarist",
   },
+  {
+    name: "Joel Aldren",
+    role: "Keyboardist",
+    instrument: "Keys · Synths",
+    image: "/images/joel.png",
+    bio: "A versatile keyboardist and composer whose musical journey spans gospel, contemporary, and indie genres. Joel's artistry is defined by his ability to create emotive soundscapes that resonate with audiences.",
+    tag: "Keyboardist",
+  }
 ];
 
 export default function Band() {
@@ -81,7 +89,7 @@ export default function Band() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="reveal text-center mb-20">
-          <p className="text-gold tracking-[0.3em] text-xs uppercase mb-4">The Kingdom Musicians</p>
+          <p className="text-gold tracking-[0.3em] text-5xl uppercase mb-4">The Kingdom Musicians</p>
           <h2 className="font-display text-5xl md:text-6xl font-light text-off-white mb-6">
             Faces Behind the Sound
           </h2>

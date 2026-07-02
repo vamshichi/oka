@@ -37,8 +37,8 @@ export default function Navbar() {
           <Image
             src="/images/oaklogo.png"
             alt="The OAK Project"
-            width={52}
-            height={52}
+            width={72}
+            height={72}
             className="rounded-full transition-transform duration-300 group-hover:scale-105"
           />
           {/* <div className="hidden sm:block">
