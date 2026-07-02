@@ -1,139 +1,130 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-// import { Phone, Mail, Instagram, Youtube } from "lucide-react";
-import {
-  FaRing,
-  FaChurch,
-  FaUsers,
-  FaMicrophoneAlt,
-  FaHandshake,
-  FaStar,
-} from "react-icons/fa";
-
-const events = [
-  {
-    icon: FaRing,
-    title: "Weddings",
-    desc: "Create an unforgettable atmosphere for your most cherished day with live gospel and soul music.",
-  },
-  {
-    icon: FaChurch,
-    title: "Church & Retreats",
-    desc: "Spirit-filled worship sessions, prayer meetings, and church retreats elevated through live instrumental worship.",
-  },
-  {
-    icon: FaUsers,
-    title: "Private Events",
-    desc: "Get-togethers and private gatherings given a unique soundtrack of purpose and joy.",
-  },
-  {
-    icon: FaMicrophoneAlt,
-    title: "Gospel Concerts",
-    desc: "Full-scale gospel music concerts featuring original compositions and beloved worship favorites.",
-  },
-  {
-    icon: FaHandshake,
-    title: "Conferences",
-    desc: "Set the tone for your corporate or ministry conference with music that inspires unity.",
-  },
-  {
-    icon: FaStar,
-    title: "Special Occasions",
-    desc: "Anniversary celebrations, milestone events — any occasion deserving a musical memory.",
-  },
-];
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Events() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const eventDate = new Date("2026-11-14T18:00:00");
+
+  const calculateTime = () => {
+    const now = new Date().getTime();
+    const distance = eventDate.getTime() - now;
+
+    return {
+      days: Math.max(0, Math.floor(distance / (1000 * 60 * 60 * 24))),
+      hours: Math.max(
+        0,
+        Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+      ),
+      minutes: Math.max(
+        0,
+        Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+      ),
+      seconds: Math.max(
+        0,
+        Math.floor((distance % (1000 * 60)) / 1000)
+      ),
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTime());
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("visible");
-        });
-      },
-      { threshold: 0.1 }
-    );
-    const els = sectionRef.current?.querySelectorAll(".reveal");
-    els?.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTime());
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   return (
     <section
       id="events"
-      ref={sectionRef}
       className="relative py-32 px-6 bg-forest-deep overflow-hidden"
     >
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="max-w-7xl mx-auto">
 
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="reveal text-center mb-20">
-          <p className="text-gold tracking-[0.3em] text-xs uppercase mb-4">
-            Where We Perform
+        <div className="text-center mb-20">
+          <p className="uppercase tracking-[0.4em] text-gold text-xl mb-4">
+            Upcoming Event
           </p>
-          <h2 className="font-display text-5xl md:text-6xl font-light text-off-white mb-6">
-            Every Occasion, <br />
-            <span className="italic text-gold-gradient">Made Memorable</span>
+
+          <h2 className="font-display text-5xl md:text-6xl text-off-white font-light">
+            Kingdom Alive
           </h2>
-          <p className="text-warm-gray max-w-xl mx-auto text-base leading-relaxed">
-            Let us make your special occasion truly memorable through music.
+
+          <p className="text-warm-gray mt-5">
+            Join us for a powerful evening of worship, music, and the presence
+            of God.
           </p>
-          <div className="gold-rule max-w-48 mx-auto mt-6">
-            <div className="w-1 h-1 bg-gold rounded-full" />
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+          {/* Event Poster */}
+          <div className="glass rounded-xl overflow-hidden border border-gold/20">
+            <Image
+              src="/images/kingdomAlive.jpeg"
+              alt="Kingdom Alive"
+              width={700}
+              height={700}
+              className="w-full h-auto object-cover"
+            />
           </div>
-        </div>
 
-        {/* Events grid */}
-        <div className="reveal grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
-          {events.map((e) => {
-            const Icon = e.icon;
-            return (
-              <div
-                key={e.title}
-                className="glass rounded-md p-7 group hover:border-gold/30 hover:-translate-y-1 transition-all duration-400"
-              >
-                <Icon className="text-4xl mb-5 block" />
-                <h3 className="font-display text-xl font-semibold text-off-white mb-3 group-hover:text-gold transition-colors">
-                  {e.title}
-                </h3>
-                <p className="text-warm-gray text-sm leading-relaxed">{e.desc}</p>
-              </div>
-            );
-          })}
-        </div>
+          {/* Event Details */}
+          <div>
 
-        {/* CTA banner */}
-        <div className="reveal relative rounded-md overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-forest-mid to-forest-deep" />
-          <div className="absolute inset-0 border border-gold/20 rounded-md" />
-          <div
-            className="absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle, rgba(201,146,42,0.8) 1px, transparent 1px)",
-              backgroundSize: "24px 24px",
-            }}
-          />
-          <div className="relative z-10 py-14 px-10 text-center">
-            <p className="font-display text-3xl md:text-4xl text-off-white font-light mb-4">
-              Ready to add the sound of{" "}
-              <span className="italic text-gold">something sacred</span>?
+            <p className="uppercase tracking-[0.3em] text-gold text-sm mb-3">
+              Live Worship Event
             </p>
-            {/* <p className="text-warm-gray mb-8 max-w-lg mx-auto">
-              Reach out to book The OAK Project for your next event.
-            </p> */}
+
+            <h3 className="font-display text-5xl text-off-white mb-6">
+              November 14<sup>th</sup>
+            </h3>
+
+            <p className="text-warm-gray leading-relaxed mb-10">
+              Experience an unforgettable night filled with worship, powerful
+              music, prayer, and the presence of God. Come together as one
+              family to celebrate His goodness.
+            </p>
+
+            {/* Countdown */}
+
+            <div className="grid grid-cols-4 gap-4 mb-10">
+
+              {[
+                { value: timeLeft.days, label: "Days" },
+                { value: timeLeft.hours, label: "Hours" },
+                { value: timeLeft.minutes, label: "Minutes" },
+                { value: timeLeft.seconds, label: "Seconds" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="glass rounded-lg p-6 text-center border border-gold/20"
+                >
+                  <h4 className="text-4xl font-bold text-gold">
+                    {String(item.value).padStart(2, "0")}
+                  </h4>
+
+                  <p className="text-xs uppercase tracking-widest text-warm-gray mt-2">
+                    {item.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
             <a
               href="#contact"
-              className="inline-block px-10 py-4 bg-gold text-ink font-medium text-sm tracking-widest uppercase hover:bg-gold-light transition-all duration-300 rounded-sm"
+              className="inline-flex px-10 py-4 bg-gold text-ink rounded-sm uppercase tracking-widest text-sm font-semibold hover:bg-gold-light transition"
             >
-              Get in Touch
+              Contact Us
             </a>
+
           </div>
+
         </div>
+
       </div>
     </section>
   );
