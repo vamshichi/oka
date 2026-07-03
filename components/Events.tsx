@@ -53,10 +53,10 @@ export default function Events() {
             Kingdom Alive
           </h2>
 
-          <p className="text-warm-gray mt-5">
+          {/* <p className="text-warm-gray mt-5">
             Join us for a powerful evening of worship, music, and the presence
             of God.
-          </p>
+          </p> */}
         </div>
 
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -76,7 +76,7 @@ export default function Events() {
           <div>
 
             <p className="uppercase tracking-[0.3em] text-gold text-sm mb-3">
-              Live Worship Event
+              An unforgettable instrumental concert where music, energy, and creativity come alive.
             </p>
 
             <h3 className="font-display text-5xl text-off-white mb-6">
@@ -84,9 +84,7 @@ export default function Events() {
             </h3>
 
             <p className="text-warm-gray leading-relaxed mb-10">
-              Experience an unforgettable night filled with worship, powerful
-              music, prayer, and the presence of God. Come together as one
-              family to celebrate His goodness.
+             Kingdom Alive is a gospel instrumental concert that brings together powerful music, creative expression, and united hearts to celebrate Jesus and inspire a generation to live boldly for His Kingdom.
             </p>
 
             {/* Countdown */}

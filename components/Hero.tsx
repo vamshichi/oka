@@ -513,7 +513,7 @@ export default function Hero() {
         {/*                              SCRIPTURE                                 */}
         {/* ---------------------------------------------------------------------- */}
 
-        <motion.div
+        {/* <motion.div
           variants={fadeIn}
           className="space-y-5"
         >
@@ -544,7 +544,7 @@ export default function Hero() {
           >
             Psalm 150:6
           </p>
-        </motion.div>
+        </motion.div> */}
 
         {/* ---------------------------------------------------------------------- */}
         {/*                               BUTTONS                                  */}

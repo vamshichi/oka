@@ -6,6 +6,7 @@ import Music from "@/components/Music";
 import Events from "@/components/Events";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import WhereWeServe from "@/components/WhereWeServe";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Band />
       {/* <Music /> */}
       <Events />
+      <WhereWeServe />
       <Contact />
       <Footer />
     </main>
