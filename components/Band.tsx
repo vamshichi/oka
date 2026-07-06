@@ -48,7 +48,7 @@ const members = [
     name: "Joel Aldren",
     role: "Keyboardist",
     instrument: "Keys · Synths",
-    image: "/images/joel.png",
+    image: "/images/joelone.png",
     bio: "A versatile keyboardist and composer whose musical journey spans gospel, contemporary, and indie genres. Joel's artistry is defined by his ability to create emotive soundscapes that resonate with audiences.",
     tag: "Keyboardist",
   }
