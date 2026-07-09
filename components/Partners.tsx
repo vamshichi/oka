@@ -9,78 +9,104 @@ const partners = [
   },
   {
     title: "Costume & Fashion Partner",
-    logo: "/partners/ea.jpeg",
+    logo: "/partners/ea.png",
   },
-//   {
-//     title: "Marketing Partner",
-//     logo: "/partners/marketing.png",
-//   },
 ];
 
 export default function Partners() {
   return (
     <section
       id="partners"
-      className="relative overflow-hidden py-28 px-6 bg-ink"
+      className="relative overflow-hidden bg-[#070707] py-28"
     >
-      {/* Background Glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-32 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-gold/10 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-gold/5 blur-[120px]" />
+      {/* Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/2 top-0 h-[550px] w-[550px] -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[180px]" />
+        <div className="absolute -left-40 bottom-0 h-[350px] w-[350px] rounded-full bg-[#D4AF37]/5 blur-[150px]" />
+        <div className="absolute -right-40 top-40 h-[350px] w-[350px] rounded-full bg-[#D4AF37]/5 blur-[150px]" />
+
+        {/* Grid Pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.25) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.25) 1px, transparent 1px)",
+            backgroundSize: "70px 70px",
+          }}
+        />
       </div>
 
-      <div className="relative max-w-7xl mx-auto">
+      <div className="relative mx-auto max-w-7xl px-6">
         {/* Heading */}
-        <div className="text-center mb-20">
-          <p className="uppercase tracking-[0.35em] text-gold/70 text-sm mb-4">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-flex items-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-5 py-2 text-xs font-medium uppercase tracking-[0.35em] text-[#D4AF37]">
             Our Partners
-          </p>
+          </span>
 
-          <h2 className="font-display text-5xl md:text-6xl font-light bg-gradient-to-r from-[#FFF6D6] via-[#D4AF37] to-[#FFF2B2] bg-clip-text text-transparent">
-            Trusted Partners
+          <h2 className="mt-8 font-display text-5xl font-light leading-tight md:text-6xl">
+            <span className="text-white">Our Trusted</span>
+            <br />
+            <span className="bg-gradient-to-r from-[#FFF9E8] via-[#D4AF37] to-[#FFF4CC] bg-clip-text text-transparent">
+              Partners
+            </span>
           </h2>
 
-          <div className="flex items-center justify-center mt-8">
-            <div className="w-24 h-px bg-gold/40"></div>
-            <div className="w-2 h-2 rounded-full bg-gold mx-4"></div>
-            <div className="w-24 h-px bg-gold/40"></div>
+          <div className="mt-8 flex items-center justify-center">
+            <div className="h-px w-24 bg-gradient-to-r from-transparent to-[#D4AF37]" />
+            <div className="mx-4 h-2 w-2 rounded-full bg-[#D4AF37]" />
+            <div className="h-px w-24 bg-gradient-to-l from-transparent to-[#D4AF37]" />
           </div>
 
-          <p className="mt-8 max-w-2xl mx-auto text-[#D9C8A3] leading-8">
-            We are grateful for the organizations and brands that support the
-            vision of The OAK Project and help us create meaningful experiences
-            through worship, creativity, and excellence.
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#CFCFCF]">
+            We are honored to collaborate with organizations that share our
+            passion for excellence, creativity, and making a lasting impact
+            through The OAK Project.
           </p>
         </div>
 
         {/* Partner Cards */}
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="mt-24 grid gap-10 md:grid-cols-2">
           {partners.map((partner) => (
             <div
               key={partner.title}
-              className="group relative rounded-3xl border border-gold/15 bg-white/[0.03] backdrop-blur-md p-10 transition-all duration-500 hover:-translate-y-2 hover:border-gold/50 hover:shadow-[0_0_40px_rgba(212,175,55,0.12)]"
+              className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-b from-[#141414] to-[#0D0D0D] p-[1px] transition-all duration-500 hover:-translate-y-3 hover:border-[#D4AF37]/50 hover:shadow-[0_30px_70px_rgba(212,175,55,0.18)]"
             >
-              {/* Top Gold Line */}
-              <div className="absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent via-gold to-transparent opacity-60" />
+              {/* Card */}
+              <div className="relative flex min-h-[360px] flex-col items-center justify-center rounded-[32px] bg-[#0B0B0B] px-10 py-14">
+                {/* Gold Glow */}
+                <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[80px] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-              <div className="flex flex-col items-center justify-center text-center min-h-[260px]">
-                <p className="uppercase tracking-[0.22em] text-gold text-sm font-medium mb-10">
-                  {partner.title}
-                </p>
+                {/* Corner Decoration */}
+                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[60px] border-l border-b border-[#D4AF37]/15" />
 
-                <div className="relative flex items-center justify-center h-28 w-full">
+                {/* White Logo Box */}
+                <div className="relative z-10 mb-10 flex h-40 w-52 items-center justify-center rounded-3xl bg-gradient-to-b from-white to-[#F5F5F5] p-8 shadow-[0_20px_50px_rgba(255,255,255,0.12)] ring-1 ring-gray-200 transition-all duration-500 group-hover:scale-105 group-hover:shadow-[0_25px_60px_rgba(212,175,55,0.28)]">
                   <Image
                     src={partner.logo}
                     alt={partner.title}
                     width={220}
-                    height={100}
-                    className="max-h-24 w-auto object-contain transition duration-300 group-hover:scale-105"
+                    height={110}
+                    className="max-h-24 w-auto object-contain"
                   />
                 </div>
-              </div>
 
-              {/* Bottom Gold Accent */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 h-1 w-10 rounded-full bg-gold/70 group-hover:w-16 transition-all duration-300" />
+                {/* Partner Type */}
+                <span className="text-center text-xs uppercase tracking-[0.35em] text-[#D4AF37]">
+                  {partner.title}
+                </span>
+
+                {/* Divider */}
+                <div className="my-6 h-px w-16 bg-[#D4AF37]/40 transition-all duration-300 group-hover:w-28" />
+
+                {/* Description */}
+                <p className="max-w-sm text-center text-sm leading-7 text-[#BDBDBD]">
+                  Proudly supporting The OAK Project through collaboration,
+                  innovation, and a shared vision of excellence.
+                </p>
+
+                {/* Bottom Accent */}
+                <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-gradient-to-r from-[#D4AF37] to-[#F5D56A] transition-all duration-500 group-hover:w-full" />
+              </div>
             </div>
           ))}
         </div>
