@@ -87,13 +87,13 @@ export const metadata: Metadata = {
       "One Heart. One Mission. One King. A Gospel Instrumental Band based in Bangalore.",
 
     images: [
-      {
-        url: "/images/oaklogo.png",
-        width: 1200,
-        height: 630,
-        alt: "The OAK Project",
-      },
-    ],
+  {
+    url: "https://oakproject.in/images/hero-bg.png",
+    width: 1200,
+    height: 630,
+    alt: "The OAK Project",
+  },
+]
   },
 
   twitter: {
