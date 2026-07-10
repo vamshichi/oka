@@ -76,36 +76,28 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://oakproject.in",
-    siteName: "The OAK Project",
+  title: "The OAK Project",
+  description:
+    "One Heart. One Mission. One King. A Gospel Instrumental Band based in Bangalore.",
+  url: "https://oakproject.in",
+  siteName: "The OAK Project",
+  images: [
+    {
+      url: "https://oakproject.in/og-image.png",
+      width: 1200,
+      height: 630,
+      alt: "The OAK Project",
+    },
+  ],
+},
 
-    title: "The OAK Project",
-
-    description:
-      "One Heart. One Mission. One King. A Gospel Instrumental Band based in Bangalore.",
-
-    images: [
-  {
-    url: "https://oakproject.in/images/hero-bg.png",
-    width: 1200,
-    height: 630,
-    alt: "The OAK Project",
-  },
-]
-  },
-
-  twitter: {
-    card: "summary_large_image",
-
-    title: "The OAK Project",
-
-    description:
-      "One Heart. One Mission. One King. A Gospel Instrumental Band.",
-
-    images: ["https://oakproject.in/images/oaklogo.png"],
-  },
+twitter: {
+  card: "summary_large_image",
+  title: "The OAK Project",
+  description:
+    "One Heart. One Mission. One King.",
+  images: ["https://oakproject.in/og-image.png"],
+},
 
   category: "Music",
 };
