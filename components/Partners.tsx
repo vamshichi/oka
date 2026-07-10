@@ -11,6 +11,10 @@ const partners = [
     title: "Costume & Fashion Partner",
     logo: "/partners/ea.png",
   },
+  {
+    title: "Supporting Partner",
+    logo: "/partners/support.png", // Replace with your logo
+  },
 ];
 
 export default function Partners() {
@@ -30,7 +34,7 @@ export default function Partners() {
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,.25) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.25) 1px, transparent 1px)",
+              "linear-gradient(rgba(255,255,255,.25) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.25) 1px, transparent 1px)",
             backgroundSize: "70px 70px",
           }}
         />
@@ -65,28 +69,27 @@ export default function Partners() {
         </div>
 
         {/* Partner Cards */}
-        <div className="mt-24 grid gap-10 md:grid-cols-2">
+        <div className="mt-24 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
           {partners.map((partner) => (
             <div
               key={partner.title}
               className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-b from-[#141414] to-[#0D0D0D] p-[1px] transition-all duration-500 hover:-translate-y-3 hover:border-[#D4AF37]/50 hover:shadow-[0_30px_70px_rgba(212,175,55,0.18)]"
             >
-              {/* Card */}
-              <div className="relative flex min-h-[360px] flex-col items-center justify-center rounded-[32px] bg-[#0B0B0B] px-10 py-14">
+              <div className="relative flex min-h-[330px] flex-col items-center justify-center rounded-[32px] bg-[#0B0B0B] px-8 py-12">
                 {/* Gold Glow */}
                 <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[80px] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Corner Decoration */}
                 <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[60px] border-l border-b border-[#D4AF37]/15" />
 
-                {/* White Logo Box */}
-                <div className="relative z-10 mb-10 flex h-40 w-52 items-center justify-center rounded-3xl bg-gradient-to-b from-white to-[#F5F5F5] p-8 shadow-[0_20px_50px_rgba(255,255,255,0.12)] ring-1 ring-gray-200 transition-all duration-500 group-hover:scale-105 group-hover:shadow-[0_25px_60px_rgba(212,175,55,0.28)]">
+                {/* Circular Logo */}
+                <div className="relative z-10 mb-8 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-b from-white to-[#F8F8F8] p-8 shadow-[0_20px_50px_rgba(255,255,255,0.12)] ring-1 ring-gray-200 transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_25px_60px_rgba(212,175,55,0.28)]">
                   <Image
                     src={partner.logo}
                     alt={partner.title}
-                    width={220}
-                    height={110}
-                    className="max-h-24 w-auto object-contain"
+                    width={120}
+                    height={120}
+                    className="max-h-20 w-auto object-contain"
                   />
                 </div>
 
@@ -99,10 +102,10 @@ export default function Partners() {
                 <div className="my-6 h-px w-16 bg-[#D4AF37]/40 transition-all duration-300 group-hover:w-28" />
 
                 {/* Description */}
-                <p className="max-w-sm text-center text-sm leading-7 text-[#BDBDBD]">
+                {/* <p className="max-w-sm text-center text-sm leading-7 text-[#BDBDBD]">
                   Proudly supporting The OAK Project through collaboration,
                   innovation, and a shared vision of excellence.
-                </p>
+                </p> */}
 
                 {/* Bottom Accent */}
                 <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-gradient-to-r from-[#D4AF37] to-[#F5D56A] transition-all duration-500 group-hover:w-full" />
