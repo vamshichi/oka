@@ -34,7 +34,7 @@ export default function About() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="reveal text-center mb-5">
-          <h2 className="font-display text-xl md:text-2xl font-light bg-gradient-to-r from-[#FFF6D6] via-[#D4AF37] to-[#FFF2B2] bg-clip-text text-transparent mb-6">
+          <h2 className="font-display text-2xl md:text-4xl font-light bg-gradient-to-r from-[#FFF6D6] via-[#D4AF37] to-[#FFF2B2] bg-clip-text text-transparent mb-6">
             About The OAK Project
           </h2>
 

@@ -1,19 +1,24 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const partners = [
   {
     title: "Creative Media Partner",
-    logo: "/partners/cm.png",
+    logos: ["/partners/supporting.png"],
   },
   {
     title: "Costume & Fashion Partner",
-    logo: "/partners/ea.png",
+    logos: ["/partners/ea.png"], // White logo recommended
+  },
+  {
+    title: "Digital Partner",
+    logos: ["/partners/digi.png"],
   },
   {
     title: "Supporting Partner",
-    logo: "/partners/support.png", // Replace with your logo
+    logos: ["/partners/cm.png", "/partners/ark.png"],
   },
 ];
 
@@ -21,98 +26,137 @@ export default function Partners() {
   return (
     <section
       id="partners"
-      className="relative overflow-hidden bg-[#070707] py-28"
+      className="relative overflow-hidden bg-gradient-to-b from-[#090909] via-[#050505] to-black py-32"
     >
-      {/* Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/2 top-0 h-[550px] w-[550px] -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[180px]" />
-        <div className="absolute -left-40 bottom-0 h-[350px] w-[350px] rounded-full bg-[#D4AF37]/5 blur-[150px]" />
-        <div className="absolute -right-40 top-40 h-[350px] w-[350px] rounded-full bg-[#D4AF37]/5 blur-[150px]" />
-
-        {/* Grid Pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,.25) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.25) 1px, transparent 1px)",
-            backgroundSize: "70px 70px",
-          }}
-        />
-      </div>
+      {/* Background Glow */}
+      <div className="absolute left-1/2 top-0 h-[550px] w-[550px] -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[180px]" />
 
       <div className="relative mx-auto max-w-7xl px-6">
         {/* Heading */}
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 px-5 py-2 text-xs font-medium uppercase tracking-[0.35em] text-[#D4AF37]">
-            Our Partners
-          </span>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center"
+        >
+          <p className="text-3xl uppercase tracking-[0.45em] text-[#D4AF37]">
+            OUR PARTNERS
+          </p>
 
-          <h2 className="mt-8 font-display text-5xl font-light leading-tight md:text-6xl">
-            <span className="text-white">Our Trusted</span>
-            <br />
-            <span className="bg-gradient-to-r from-[#FFF9E8] via-[#D4AF37] to-[#FFF4CC] bg-clip-text text-transparent">
-              Partners
+          {/* <h2 className="mt-5 text-5xl font-light text-white md:text-6xl">
+            Proudly{" "}
+            <span className="bg-gradient-to-r from-[#FFF5C2] via-[#D4AF37] to-[#FFF5C2] bg-clip-text text-transparent">
+              Supported By
             </span>
           </h2>
 
-          <div className="mt-8 flex items-center justify-center">
-            <div className="h-px w-24 bg-gradient-to-r from-transparent to-[#D4AF37]" />
-            <div className="mx-4 h-2 w-2 rounded-full bg-[#D4AF37]" />
-            <div className="h-px w-24 bg-gradient-to-l from-transparent to-[#D4AF37]" />
-          </div>
-
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-8 text-[#CFCFCF]">
+          <p className="mx-auto mt-6 max-w-3xl leading-8 text-gray-400">
             We are honored to collaborate with organizations that share our
-            passion for excellence, creativity, and making a lasting impact
-            through The OAK Project.
-          </p>
-        </div>
+            vision and continue supporting The OAK Project.
+          </p> */}
+        </motion.div>
 
-        {/* Partner Cards */}
-        <div className="mt-24 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-          {partners.map((partner) => (
-            <div
+        {/* ================= TOP GRID ================= */}
+
+        <div className="mt-24 grid gap-8 md:grid-cols-3">
+          {partners.slice(0, 3).map((partner, index) => (
+            <motion.div
               key={partner.title}
-              className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-b from-[#141414] to-[#0D0D0D] p-[1px] transition-all duration-500 hover:-translate-y-3 hover:border-[#D4AF37]/50 hover:shadow-[0_30px_70px_rgba(212,175,55,0.18)]"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.15,
+              }}
+              whileHover={{
+                y: -8,
+              }}
+              className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-xl transition-all duration-500 hover:border-[#D4AF37]/40 hover:shadow-[0_0_50px_rgba(212,175,55,0.15)]"
             >
-              <div className="relative flex min-h-[330px] flex-col items-center justify-center rounded-[32px] bg-[#0B0B0B] px-8 py-12">
-                {/* Gold Glow */}
-                <div className="absolute -top-24 left-1/2 h-48 w-48 -translate-x-1/2 rounded-full bg-[#D4AF37]/10 blur-[80px] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              {/* Glow */}
+              <div className="absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D4AF37]/10 blur-[120px]" />
 
-                {/* Corner Decoration */}
-                <div className="absolute right-0 top-0 h-24 w-24 rounded-bl-[60px] border-l border-b border-[#D4AF37]/15" />
+              <div className="relative px-8 py-10">
+                <div className="text-center">
+                  <p className="text-xs uppercase tracking-[0.35em] text-[#D4AF37]">
+                    {partner.title}
+                  </p>
 
-                {/* Circular Logo */}
-                <div className="relative z-10 mb-8 flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-b from-white to-[#F8F8F8] p-8 shadow-[0_20px_50px_rgba(255,255,255,0.12)] ring-1 ring-gray-200 transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_25px_60px_rgba(212,175,55,0.28)]">
-                  <Image
-                    src={partner.logo}
-                    alt={partner.title}
-                    width={120}
-                    height={120}
-                    className="max-h-20 w-auto object-contain"
-                  />
+                  <div className="mx-auto mt-5 h-px w-32 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent transition-all duration-500 group-hover:w-44" />
                 </div>
 
-                {/* Partner Type */}
-                <span className="text-center text-xs uppercase tracking-[0.35em] text-[#D4AF37]">
-                  {partner.title}
-                </span>
-
-                {/* Divider */}
-                <div className="my-6 h-px w-16 bg-[#D4AF37]/40 transition-all duration-300 group-hover:w-28" />
-
-                {/* Description */}
-                {/* <p className="max-w-sm text-center text-sm leading-7 text-[#BDBDBD]">
-                  Proudly supporting The OAK Project through collaboration,
-                  innovation, and a shared vision of excellence.
-                </p> */}
-
-                {/* Bottom Accent */}
-                <div className="absolute bottom-0 left-0 h-[3px] w-0 bg-gradient-to-r from-[#D4AF37] to-[#F5D56A] transition-all duration-500 group-hover:w-full" />
+                <motion.div
+                  whileHover={{
+                    scale: 1.05,
+                  }}
+                  className="mt-12 flex h-44 items-center justify-center"
+                >
+                  <Image
+                    src={partner.logos[0]}
+                    alt={partner.title}
+                    width={240}
+                    height={120}
+                    className="max-h-24 w-auto object-contain transition duration-500"
+                  />
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
+
+        {/* ================= SUPPORTING PARTNER ================= */}
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.7,
+            delay: 0.3,
+          }}
+          className="group relative mt-10 overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.03] backdrop-blur-xl transition-all duration-500 hover:border-[#D4AF37]/40 hover:shadow-[0_0_60px_rgba(212,175,55,0.15)]"
+        >
+          {/* Glow */}
+          <div className="absolute left-1/2 top-1/2 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#D4AF37]/10 blur-[150px]" />
+
+          <div className="relative px-10 py-14 md:px-16">
+            <div className="text-center">
+              <p className="text-xs uppercase tracking-[0.4em] text-[#D4AF37]">
+                Supporting Partner
+              </p>
+
+              <div className="mx-auto mt-5 h-px w-40 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent transition-all duration-500 group-hover:w-56" />
+            </div>
+
+            <div className="mt-14 flex flex-wrap items-center justify-center gap-20 md:gap-28">
+              {partners[3].logos.map((logo, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{
+                    scale: 1.08,
+                    y: -6,
+                  }}
+                  transition={{
+                    duration: 0.3,
+                  }}
+                  className="relative"
+                >
+                  <div className="absolute inset-0 rounded-full bg-[#D4AF37]/20 blur-3xl opacity-0 transition duration-500 hover:opacity-100" />
+
+                  <Image
+                    src={logo}
+                    alt="Supporting Partner"
+                    width={260}
+                    height={120}
+                    className="relative max-h-24 w-auto object-contain"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
