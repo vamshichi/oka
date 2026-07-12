@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Events() {
@@ -39,49 +40,56 @@ export default function Events() {
   return (
     <section
       id="events"
-      className="relative overflow-hidden py-28 lg:py-36"
-      style={{
-        backgroundImage: "url('/images/kingeventimage.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="relative py-32 px-6 bg-forest-deep overflow-hidden"
     >
-      {/* Overlay */}
-      {/* <div className="absolute inset-0 bg-black/35" /> */}
+           <div className="max-w-7xl mx-auto">
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6">
+        <div className="text-center mb-20">
+          <p className="uppercase tracking-[0.4em] text-gold text-xl mb-4">
+            Upcoming Event
+          </p>
 
-        {/* ================= MAIN LAYOUT ================= */}
-        <div className="grid lg:grid-cols-[420px_1fr_420px] gap-8 items-center min-h-[650px]">
+          <h2 className="font-display text-5xl md:text-6xl text-off-white font-light">
+            Kingdom Alive
+          </h2>
 
-          {/* ================= LEFT SIDE ================= */}
+          {/* <p className="text-warm-gray mt-5">
+            Join us for a powerful evening of worship, music, and the presence
+            of God.
+          </p> */}
+        </div>
 
-          <div className="flex items-center h-full">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-            <div>
-
-              <p className="text-white text-lg leading-10 w-full max-w-[400px]">
-                Kingdom Alive is a gospel instrumental concert that brings
-                together powerful music, creative expression, and united hearts
-                to celebrate Jesus and inspire a generation to live boldly for
-                His Kingdom.
-              </p>
-
-            </div>
-
+          {/* Event Poster */}
+          <div className="glass rounded-lg overflow-hidden border border-gold/20">
+            <Image
+              src="/images/kingeventimage.png"
+              alt="Kingdom Alive"
+              width={700}
+              height={700}
+              className="w-full h-auto object-cover"
+            />
           </div>
 
-          {/* ================= CENTER ================= */}
-          {/* Leave empty because the logo is already in the background image */}
+          {/* Event Details */}
+          <div>
 
-          <div />
+            <p className="uppercase tracking-[0.3em] text-gold text-sm mb-3">
+              An unforgettable instrumental concert where music, energy, and creativity come alive.
+            </p>
 
-          {/* ================= RIGHT SIDE ================= */}
+            <h3 className="font-display text-5xl text-off-white mb-6">
+              November 14<sup>th</sup>
+            </h3>
 
-          <div className="flex justify-end">
+            <p className="text-warm-gray leading-relaxed mb-10">
+             Kingdom Alive is a gospel instrumental concert that brings together powerful music, creative expression, and united hearts to celebrate Jesus and inspire a generation to live boldly for His Kingdom.
+            </p>
 
-            <div className="grid grid-cols-2 gap-5 w-full max-w-[300px]">
+            {/* Countdown */}
+
+            <div className="grid grid-cols-4 gap-4 mb-10">
 
               {[
                 { value: timeLeft.days, label: "Days" },
@@ -91,30 +99,23 @@ export default function Events() {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="h-36 rounded-2xl bg-black/50 backdrop-blur-xl border border-[#D4AF37]/25 flex flex-col justify-center transition hover:border-[#D4AF37]"
+                  className="glass rounded-lg p-6 text-center border border-gold/20"
                 >
-                  <h3 className="text-center text-5xl font-bold text-[#D4AF37]">
+                  <h4 className="text-4xl font-bold text-gold">
                     {String(item.value).padStart(2, "0")}
-                  </h3>
+                  </h4>
 
-                  <p className="mt-3 text-center uppercase tracking-[0.35em] text-xs text-white/70">
+                  <p className="text-xs uppercase tracking-widest text-warm-gray mt-2">
                     {item.label}
                   </p>
                 </div>
               ))}
-
             </div>
 
-          </div>
-
-        </div>
-
-        {/* ================= BUTTONS ================= */}
-
-        <div className="mt-10 flex flex-col sm:flex-row justify-center gap-6">
+            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-6">
 
           <a
-            // href="#event"
+            // href="#contact"
             className="px-12 py-4 rounded-lg bg-[#D4AF37] text-black font-semibold uppercase tracking-[0.25em] transition duration-300 hover:bg-[#E5BF49] hover:scale-105"
           >
             Event Passes
@@ -126,6 +127,9 @@ export default function Events() {
           >
             Register as Sponsor
           </a>
+
+        </div>
+          </div>
 
         </div>
 
