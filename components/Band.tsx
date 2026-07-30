@@ -116,7 +116,7 @@ export default function Band() {
                 />
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-transparent to-transparent" />
-
+                {/* Tag badge */}
                 {/* Tag badge */}
                 {/* <div className="absolute top-4 right-4 px-3 py-1 bg-gold/90 text-ink text-xs font-medium tracking-wider uppercase rounded-sm">
                   {m.tag}
