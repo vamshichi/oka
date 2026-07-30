@@ -3,9 +3,67 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Phone, Mail, Instagram, Youtube } from "lucide-react";
+import { useState } from "react";
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [formData, setFormData] = useState({
+  name: "",
+  phone: "",
+  email: "",
+  eventType: "",
+  message: "",
+});
+
+const [loading, setLoading] = useState(false);
+
+const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+) => {
+  setFormData({
+    ...formData,
+    [e.target.name]: e.target.value,
+  });
+};
+
+const handleSubmit = async (
+  e: React.FormEvent<HTMLFormElement>
+) => {
+  e.preventDefault();
+
+  setLoading(true);
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Enquiry sent successfully!");
+
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        eventType: "",
+        message: "",
+      });
+    } else {
+      alert(data.message);
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong.");
+  }
+
+  setLoading(false);
+};
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -61,7 +119,7 @@ export default function Contact() {
 
             <div className="space-y-4 mb-10">
               <a
-                href="tel:+919741480196"
+                href="tel:+918277360316"
                 className="flex items-center gap-4 group"
               >
                 <div className="w-10 h-10 rounded-sm border border-gold/30 flex items-center justify-center group-hover:bg-gold/10 transition-colors">
@@ -72,7 +130,7 @@ export default function Contact() {
                     Phone
                   </p>
                   <p className="text-off-white group-hover:text-gold transition-colors">
-                    +91 97414 80196
+                    +91 8277360316
                   </p>
                 </div>
               </a>
@@ -128,89 +186,140 @@ export default function Contact() {
           </div>
 
           {/* Message form */}
-          <div className="glass rounded-md p-8">
-            <h3 className="font-display text-2xl text-off-white font-light mb-6">
-              Send a Message
-            </h3>
-            <form className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    placeholder="+91 xxxxx xxxxx"
-                    className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
-                  Event Type
-                </label>
-                <select className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm focus:outline-none focus:border-gold/40 transition-colors appearance-none">
-                  <option value="" className="bg-ink">
-                    Select event type
-                  </option>
-                  <option value="wedding" className="bg-ink">
-                    Wedding
-                  </option>
-                  <option value="church" className="bg-ink">
-                    Church / Retreat
-                  </option>
-                  <option value="concert" className="bg-ink">
-                    Gospel Concert
-                  </option>
-                  <option value="private" className="bg-ink">
-                    Private Event
-                  </option>
-                  <option value="conference" className="bg-ink">
-                    Conference
-                  </option>
-                  <option value="other" className="bg-ink">
-                    Other
-                  </option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
-                  Message
-                </label>
-                <textarea
-                  rows={4}
-                  placeholder="Tell us about your event..."
-                  className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full py-4 bg-gold text-ink font-medium text-sm tracking-widest uppercase hover:bg-gold-light transition-all duration-300 rounded-sm"
-              >
-                Send Enquiry
-              </button>
-            </form>
-          </div>
+          {/* Message Form */}
+<div className="glass rounded-md p-8">
+  <h3 className="font-display text-2xl text-off-white font-light mb-6">
+    Send a Message
+  </h3>
+
+  <form onSubmit={handleSubmit} className="space-y-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Name */}
+      <div>
+        <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
+          Name
+        </label>
+
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Your Name"
+          required
+          className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors"
+        />
+      </div>
+
+      {/* Phone */}
+      <div>
+        <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
+          Phone
+        </label>
+
+        <input
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="+91 xxxxx xxxxx"
+          required
+          className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors"
+        />
+      </div>
+    </div>
+
+    {/* Email */}
+    <div>
+      <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
+        Email
+      </label>
+
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="your@email.com"
+        required
+        className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors"
+      />
+    </div>
+
+    {/* Event Type */}
+    <div>
+      <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
+        Event Type
+      </label>
+
+      <select
+        name="eventType"
+        value={formData.eventType}
+        onChange={handleChange}
+        required
+        className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm focus:outline-none focus:border-gold/40 transition-colors appearance-none"
+      >
+        <option value="" className="bg-ink">
+          Select Event Type
+        </option>
+
+        <option value="Wedding" className="bg-ink">
+          Wedding
+        </option>
+
+        <option value="Church / Retreat" className="bg-ink">
+          Church / Retreat
+        </option>
+
+        <option value="Gospel Concert" className="bg-ink">
+          Gospel Concert
+        </option>
+
+        <option value="Private Event" className="bg-ink">
+          Private Event
+        </option>
+
+        <option value="Conference" className="bg-ink">
+          Conference
+        </option>
+
+        <option value="Other" className="bg-ink">
+          Other
+        </option>
+      </select>
+    </div>
+
+    {/* Message */}
+    <div>
+      <label className="block text-xs text-warm-gray tracking-widest uppercase mb-2">
+        Message
+      </label>
+
+      <textarea
+        rows={5}
+        name="message"
+        value={formData.message}
+        onChange={handleChange}
+        placeholder="Tell us about your event..."
+        required
+        className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-off-white text-sm placeholder:text-warm-gray/40 focus:outline-none focus:border-gold/40 transition-colors resize-none"
+      />
+    </div>
+
+    {/* Button */}
+    <button
+      type="submit"
+      disabled={loading}
+      className={`w-full py-4 rounded-sm font-medium tracking-widest uppercase transition-all duration-300 ${
+        loading
+          ? "bg-gray-600 cursor-not-allowed"
+          : "bg-gold text-ink hover:bg-gold-light"
+      }`}
+    >
+      {loading ? "Sending..." : "Send Enquiry"}
+    </button>
+  </form>
+</div>
         </div>
       </div>
     </section>
