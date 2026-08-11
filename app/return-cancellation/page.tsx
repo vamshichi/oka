@@ -31,6 +31,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "2",
     title: "CANCELLATION BY THE CUSTOMER",
@@ -48,6 +49,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "3",
     title: "EVENT CANCELLATION OR POSTPONEMENT",
@@ -76,6 +78,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "4",
     title: "REFUNDS",
@@ -87,9 +90,16 @@ const sections = [
         </p>
 
         <p>
-          The time taken for the refunded amount to appear in your bank account
-          or payment method may depend on the relevant bank, card issuer, UPI
-          provider, or payment gateway.
+          Approved refunds will be credited within{" "}
+          <strong className="text-white">7–8 business days</strong> to the
+          original source of payment used for the transaction.
+        </p>
+
+        <p>
+          The actual time taken for the refunded amount to appear in your bank
+          account, card account, UPI account, or other payment method may vary
+          depending on the relevant bank, card issuer, UPI provider, or payment
+          gateway.
         </p>
 
         <p>
@@ -99,6 +109,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "5",
     title: "DUPLICATE OR FAILED TRANSACTIONS",
@@ -127,6 +138,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "6",
     title: "INCORRECT INFORMATION",
@@ -146,6 +158,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "7",
     title: "TRANSFER OF TICKETS",
@@ -164,6 +177,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "8",
     title: "PROMOTIONAL OR COMPLIMENTARY PASSES",
@@ -181,6 +195,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "9",
     title: "HOW TO REQUEST ASSISTANCE",
@@ -232,6 +247,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "10",
     title: "POLICY CHANGES",
@@ -249,6 +265,7 @@ const sections = [
       </>
     ),
   },
+
   {
     number: "11",
     title: "CONTACT US",
