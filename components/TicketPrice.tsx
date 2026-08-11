@@ -9,7 +9,6 @@ interface TicketPriceProps {
   description?: string;
   buttonText?: string;
   features?: string[];
-  onBuy?: () => void;
 }
 
 export default function TicketPrice({
@@ -22,10 +21,9 @@ export default function TicketPrice({
     "Access to live performances",
     "Digital ticket confirmation",
   ],
-  onBuy,
 }: TicketPriceProps) {
   return (
-    <div className="group relative w-full max-w-sm overflow-hidden rounded-3xl border border-gold/20 bg-[#0c0c0c] p-6 shadow-2xl transition-all duration-500 hover:-translate-y-1 hover:border-gold/50 items-center hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+    <div className="group relative w-full max-w-sm overflow-hidden rounded-3xl border border-gold/20 bg-[#0c0c0c] p-6 shadow-2xl transition-all duration-500 hover:-translate-y-1 hover:border-gold/50">
       {/* Glow */}
       <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-gold/10 blur-3xl transition-all duration-500 group-hover:bg-gold/20" />
 
@@ -54,10 +52,6 @@ export default function TicketPrice({
 
       {/* Price */}
       <div className="relative mt-8 border-y border-white/10 py-6">
-        <p className="text-xs uppercase tracking-[0.2em] text-warm-gray/60">
-          Starting From
-        </p>
-
         <div className="mt-2 flex items-end gap-2">
           <span className="text-5xl font-semibold tracking-tight text-white">
             ₹{price.toLocaleString("en-IN")}
@@ -86,9 +80,8 @@ export default function TicketPrice({
       </div>
 
       {/* Button */}
-      <button
-        type="button"
-        onClick={onBuy}
+      <a
+        href="#contact"
         className="relative mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-black transition-all duration-300 hover:bg-gold/90 hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]"
       >
         {buttonText}
@@ -97,7 +90,7 @@ export default function TicketPrice({
           size={17}
           className="transition-transform duration-300 group-hover:translate-x-1"
         />
-      </button>
+      </a>
 
       {/* Footer */}
       <p className="mt-4 text-center text-[11px] tracking-wide text-warm-gray/40">

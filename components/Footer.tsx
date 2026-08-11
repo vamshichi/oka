@@ -57,7 +57,7 @@ export default function Footer() {
                 href="/return-cancellation"
                 className="text-sm text-warm-gray transition-colors hover:text-gold"
               >
-                Return &amp; Cancellation Policy
+               Cancellation Policy
               </a>
             </div>
           </div>
@@ -105,6 +105,7 @@ export default function Footer() {
               href="mailto:theoakproject.gospelband@gmail.com"
               className="mt-5 block text-sm text-warm-gray transition-colors hover:text-gold"
             >
+              Kalebu C
               theoakproject.gospelband@gmail.com
             </a>
 
