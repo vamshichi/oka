@@ -117,7 +117,7 @@ const sections = [
     content: (
       <>
         <p>
-          For certain events, registrations, tickets, donations, sponsorships,
+          For certain events, registrations, tickets, sponsorships,
           or other transactions, we may use third-party payment processors or
           payment gateway providers.
         </p>

@@ -342,42 +342,42 @@ const sections = [
       </>
     ),
   },
-  {
-    number: "9",
-    title: "DONATIONS AND VOLUNTARY SUPPORT",
-    content: (
-      <>
-        <p>
-          Where the Website provides an option to voluntarily support an event
-          or The OAK Project, such contributions may be used for purposes
-          communicated at the time of contribution.
-        </p>
+  // {
+  //   number: "9",
+  //   title: "DONATIONS AND VOLUNTARY SUPPORT",
+  //   content: (
+  //     <>
+  //       <p>
+  //         Where the Website provides an option to voluntarily support an event
+  //         or The OAK Project, such contributions may be used for purposes
+  //         communicated at the time of contribution.
+  //       </p>
 
-        <p>Unless expressly stated otherwise:</p>
+  //       <p>Unless expressly stated otherwise:</p>
 
-        <ul>
-          <li>Contributions are voluntary.</li>
-          <li>
-            A contribution does not automatically provide entitlement to a
-            ticket, pass, product, service, or specific benefit.
-          </li>
-          <li>
-            Contributions should not be made using funds obtained through
-            fraudulent or unauthorised means.
-          </li>
-          <li>
-            Refunds of voluntary contributions will be subject to the
-            applicable contribution/refund policy communicated at the time.
-          </li>
-          <li>
-            Where applicable, any tax-related documentation or receipts will
-            be issued only in accordance with applicable law and the nature of
-            the receiving organisation/entity.
-          </li>
-        </ul>
-      </>
-    ),
-  },
+  //       <ul>
+  //         <li>Contributions are voluntary.</li>
+  //         <li>
+  //           A contribution does not automatically provide entitlement to a
+  //           ticket, pass, product, service, or specific benefit.
+  //         </li>
+  //         <li>
+  //           Contributions should not be made using funds obtained through
+  //           fraudulent or unauthorised means.
+  //         </li>
+  //         <li>
+  //           Refunds of voluntary contributions will be subject to the
+  //           applicable contribution/refund policy communicated at the time.
+  //         </li>
+  //         <li>
+  //           Where applicable, any tax-related documentation or receipts will
+  //           be issued only in accordance with applicable law and the nature of
+  //           the receiving organisation/entity.
+  //         </li>
+  //       </ul>
+  //     </>
+  //   ),
+  // },
   {
     number: "10",
     title: "BOOKINGS AND ENQUIRIES",
