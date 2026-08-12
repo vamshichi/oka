@@ -105,7 +105,7 @@ export default function Footer() {
               href="mailto:theoakproject.gospelband@gmail.com"
               className="mt-5 block text-sm text-warm-gray transition-colors hover:text-gold"
             >
-              Kalebu C
+              Kalebu C<br></br>
               theoakproject.gospelband@gmail.com
             </a>
 
