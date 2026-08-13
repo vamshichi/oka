@@ -20,9 +20,10 @@ export default function Home() {
 
       <Band />
 
-      <Partners />
+      
 
       <Events />
+      <Partners />
 
       <TicketSection />
 

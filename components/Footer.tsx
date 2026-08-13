@@ -101,7 +101,7 @@ export default function Footer() {
               </a>
             </div>
 
-            <a
+            {/* <a
               href="mailto:theoakproject.gospelband@gmail.com"
               className="mt-5 block text-sm text-warm-gray transition-colors hover:text-gold"
             >
@@ -114,7 +114,7 @@ export default function Footer() {
               className="mt-2 block text-sm text-warm-gray transition-colors hover:text-gold"
             >
               +91 8277360316
-            </a>
+            </a> */}
           </div>
         </div>
 
