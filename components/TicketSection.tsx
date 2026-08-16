@@ -45,16 +45,11 @@ export default function TicketSection() {
 
           {/* Ticket Cards */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <TicketCard
-  title="PhonePe Test Pass"
-  price={1}
-  description="₹1 test payment for PhonePe activation and payment verification."
-  onBuy={() => handleBuy("TEST_PASS")}
-/>
+           
 
             <TicketCard
               title="Kingdom Alive Pass"
-              price={299}
+              price={249}
               description="Come ready to feel something unforgettable."
               onBuy={() =>
                 handleBuy("KINGDOM_ALIVE")

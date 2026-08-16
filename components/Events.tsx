@@ -115,7 +115,7 @@ export default function Events() {
             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-6">
 
           <a
-            // href="#contact"
+            href="/tickets"
             className="px-12 py-4 rounded-lg bg-[#D4AF37] text-black font-semibold uppercase tracking-[0.25em] transition duration-300 hover:bg-[#E5BF49] hover:scale-105"
           >
             Event Passes
