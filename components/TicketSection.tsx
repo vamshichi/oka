@@ -57,7 +57,7 @@ export default function TicketSection() {
             />
 
             <TicketCard
-              title="Signature Pass"
+              title="Event Support Pass"
               price={999}
               description="Be part of something that lives beyond the moment."
               featured

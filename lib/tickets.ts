@@ -9,7 +9,7 @@ export const TICKETS = {
   },
 
   SIGNATURE: {
-    name: "Signature Pass",
+    name: "Event Support Pass",
     price: 999,
   },
 

@@ -25,7 +25,7 @@ export default function Home() {
       <Events />
       <Partners />
 
-      <TicketSection />
+      {/* <TicketSection /> */}
 
       <WhereWeServe />
 

@@ -27,7 +27,7 @@ const TICKETS: Record<
     price: 249,
   },
   SIGNATURE: {
-    name: "Signature Pass",
+    name: "Event Support Pass",
     price: 999,
   },
   DONOR: {
