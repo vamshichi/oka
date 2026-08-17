@@ -4,14 +4,6 @@ import {
   getPhonePeOrderStatus,
 } from "@/lib/phonepe";
 
-import {
-  sendPaymentConfirmationEmail,
-} from "@/lib/email";
-
-import {
-  verifyPaymentOrderToken,
-} from "@/lib/payment-order";
-
 export async function GET(
   request: NextRequest
 ) {
@@ -22,86 +14,33 @@ export async function GET(
     const merchantOrderId =
       searchParams.get("orderId");
 
-    const token =
-      searchParams.get("token");
-
-    // ---------------------------------------------
-    // Validate order ID
-    // ---------------------------------------------
-
     if (!merchantOrderId) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Order ID is required.",
+          message: "Order ID is required.",
         },
         {
           status: 400,
         }
       );
     }
-
-    // ---------------------------------------------
-    // Validate token
-    // ---------------------------------------------
-
-    if (!token) {
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            "Payment verification token is required.",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    // ---------------------------------------------
-    // Verify signed order data
-    // ---------------------------------------------
-
-    const order =
-      verifyPaymentOrderToken(token);
-
-    if (!order) {
-      return NextResponse.json(
-        {
-          success: false,
-          message:
-            "Invalid payment verification token.",
-        },
-        {
-          status: 400,
-        }
-      );
-    }
-
-    // ---------------------------------------------
-    // Make sure token belongs to this order
-    // ---------------------------------------------
 
     if (
-      order.merchantOrderId !==
-      merchantOrderId
+      !/^OAK_[0-9]+_[a-f0-9]+$/i.test(
+        merchantOrderId
+      )
     ) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Order verification failed.",
+          message: "Invalid order ID.",
         },
         {
           status: 400,
         }
       );
     }
-
-    // ---------------------------------------------
-    // Ask PhonePe for REAL payment status
-    // ---------------------------------------------
 
     const phonePeResponse =
       await getPhonePeOrderStatus(
@@ -117,72 +56,7 @@ export async function GET(
       phonePeResponse?.state ||
       phonePeResponse?.data?.state;
 
-    const phonePeOrderId =
-      phonePeResponse?.orderId ||
-      phonePeResponse?.data?.orderId ||
-      merchantOrderId;
-
-    // ---------------------------------------------
-    // PAYMENT SUCCESS
-    // ---------------------------------------------
-
     if (state === "COMPLETED") {
-      /*
-       * IMPORTANT:
-       *
-       * PhonePe has confirmed payment.
-       *
-       * Now send emails.
-       */
-
-      try {
-        await sendPaymentConfirmationEmail({
-          customerName:
-            order.customerName,
-
-          customerEmail:
-            order.customerEmail,
-
-          mobile:
-            order.mobile,
-
-          ticketName:
-            order.ticketName,
-
-          ticketType:
-            order.ticketType,
-
-          quantity:
-            order.quantity,
-
-          amount:
-            order.amount,
-
-          merchantOrderId:
-            order.merchantOrderId,
-
-          phonePeOrderId,
-        });
-
-        console.log(
-          "Payment confirmation email sent successfully."
-        );
-      } catch (emailError) {
-        /*
-         * IMPORTANT:
-         *
-         * Payment is already successful.
-         *
-         * Email failure must NOT make the
-         * payment appear failed.
-         */
-
-        console.error(
-          "Payment successful but email failed:",
-          emailError
-        );
-      }
-
       return NextResponse.json({
         success: true,
 
@@ -190,27 +64,19 @@ export async function GET(
 
         orderId: merchantOrderId,
 
-        phonePeOrderId,
-
-        customerName:
-          order.customerName,
-
-        ticketName:
-          order.ticketName,
-
-        quantity:
-          order.quantity,
+        phonePeOrderId:
+          phonePeResponse?.orderId ||
+          phonePeResponse?.data?.orderId ||
+          merchantOrderId,
 
         amount:
-          order.amount * 100,
+          phonePeResponse?.amount ||
+          phonePeResponse?.data?.amount ||
+          null,
 
         state,
       });
     }
-
-    // ---------------------------------------------
-    // PAYMENT FAILED
-    // ---------------------------------------------
 
     if (state === "FAILED") {
       return NextResponse.json({
@@ -223,10 +89,6 @@ export async function GET(
         state,
       });
     }
-
-    // ---------------------------------------------
-    // PAYMENT PENDING
-    // ---------------------------------------------
 
     return NextResponse.json({
       success: true,

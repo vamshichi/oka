@@ -1,5 +1,3 @@
-// app/api/payment/create/route.ts
-
 import { NextRequest, NextResponse } from "next/server";
 
 import {
@@ -8,10 +6,6 @@ import {
 } from "@/lib/phonepe";
 
 import { getTicket } from "@/lib/tickets";
-
-import {
-  createPaymentOrderToken,
-} from "@/lib/payment-order";
 
 interface CreatePaymentRequest {
   ticketType: string;
@@ -36,10 +30,6 @@ export async function POST(
       quantity,
     } = body;
 
-    // ---------------------------------------------
-    // Validate required fields
-    // ---------------------------------------------
-
     if (
       !ticketType ||
       !fullName ||
@@ -50,16 +40,11 @@ export async function POST(
       return NextResponse.json(
         {
           success: false,
-          message:
-            "All fields are required.",
+          message: "All fields are required.",
         },
         { status: 400 }
       );
     }
-
-    // ---------------------------------------------
-    // Validate quantity
-    // ---------------------------------------------
 
     if (
       !Number.isInteger(quantity) ||
@@ -76,10 +61,6 @@ export async function POST(
       );
     }
 
-    // ---------------------------------------------
-    // Validate mobile
-    // ---------------------------------------------
-
     if (!/^[0-9]{10}$/.test(mobile)) {
       return NextResponse.json(
         {
@@ -90,10 +71,6 @@ export async function POST(
         { status: 400 }
       );
     }
-
-    // ---------------------------------------------
-    // Validate email
-    // ---------------------------------------------
 
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -109,10 +86,6 @@ export async function POST(
       );
     }
 
-    // ---------------------------------------------
-    // Get ticket FROM SERVER
-    // ---------------------------------------------
-
     const ticket = getTicket(ticketType);
 
     if (!ticket) {
@@ -126,54 +99,14 @@ export async function POST(
       );
     }
 
-    // ---------------------------------------------
-    // Calculate price FROM SERVER
-    // ---------------------------------------------
-
     const totalAmount =
       ticket.price * quantity;
 
     const amountInPaise =
       totalAmount * 100;
 
-    // ---------------------------------------------
-    // Generate order ID
-    // ---------------------------------------------
-
     const merchantOrderId =
       generateMerchantOrderId();
-
-    // ---------------------------------------------
-    // Create PhonePe payment
-    // ---------------------------------------------
-
-    const orderToken =
-      createPaymentOrderToken({
-        merchantOrderId,
-
-        customerName: fullName,
-
-        customerEmail: email,
-
-        mobile,
-
-        ticketType,
-
-        ticketName: ticket.name,
-
-        quantity,
-
-        amount: totalAmount,
-      });
-
-      const redirectUrl =
-  `${process.env.NEXT_PUBLIC_APP_URL}/payment/success` +
-  `?orderId=${encodeURIComponent(
-    merchantOrderId
-  )}` +
-  `&token=${encodeURIComponent(
-    orderToken
-  )}`;
 
     const phonePeResponse =
       await createPhonePePayment({
@@ -192,14 +125,11 @@ export async function POST(
         ticketName: ticket.name,
 
         quantity,
-        redirectUrl,
       });
 
-    // ---------------------------------------------
-    // Extract checkout URL
-    // ---------------------------------------------
-
-    
+    const redirectUrl =
+      phonePeResponse?.redirectUrl ||
+      phonePeResponse?.data?.redirectUrl;
 
     if (!redirectUrl) {
       console.error(
@@ -212,18 +142,10 @@ export async function POST(
       );
     }
 
-    // ---------------------------------------------
-    // Create signed order token
-    // ---------------------------------------------
-
-    
-
     return NextResponse.json({
       success: true,
 
       orderId: merchantOrderId,
-
-      orderToken,
 
       redirectUrl,
 
