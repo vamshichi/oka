@@ -1,7 +1,10 @@
 // lib/tickets.ts
 
 export const TICKETS = {
-    
+  TEST:{
+    name: "test email",
+    price: 1,
+  },
   
   KINGDOM_ALIVE: {
     name: "Kingdom Alive Pass",

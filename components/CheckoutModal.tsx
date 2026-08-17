@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { X, ArrowRight, Loader2 } from "lucide-react";
 
 export type TicketType =
+  | "TEST"
   | "KINGDOM_ALIVE"
   | "SIGNATURE"
   | "DONOR"
@@ -21,7 +22,13 @@ const TICKETS: Record<
     name: string;
     price: number;
   }
-> = {
+> = 
+    {
+      TEST: {
+    name: "test",
+    price: 1,
+    },
+
     KINGDOM_ALIVE: {
     name: "Kingdom Alive Pass",
     price: 249,

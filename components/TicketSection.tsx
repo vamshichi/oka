@@ -45,7 +45,15 @@ export default function TicketSection() {
 
           {/* Ticket Cards */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-           
+
+            <TicketCard
+              title="Test"
+              price={1}
+              description="Come ready to feel something unforgettable."
+              onBuy={() =>
+                handleBuy("TEST")
+              }
+            />
 
             <TicketCard
               title="Kingdom Alive Pass"
