@@ -125,6 +125,7 @@ export async function createPhonePePayment(params: {
   ticketType: string;
   ticketName: string;
   quantity: number;
+  redirectUrl: string;
 }) {
   const config = getPhonePeConfig();
 
@@ -149,9 +150,7 @@ export async function createPhonePePayment(params: {
   udf5: String(params.quantity),
 },
 
-    redirectUrl: `${config.appUrl}/payment/success?orderId=${encodeURIComponent(
-      params.merchantOrderId
-    )}`,
+    redirectUrl: params.redirectUrl,
 
     redirectMode: "REDIRECT",
   };

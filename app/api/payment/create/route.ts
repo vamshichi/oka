@@ -9,6 +9,10 @@ import {
 
 import { getTicket } from "@/lib/tickets";
 
+import {
+  createPaymentOrderToken,
+} from "@/lib/payment-order";
+
 interface CreatePaymentRequest {
   ticketType: string;
   fullName: string;
@@ -17,7 +21,9 @@ interface CreatePaymentRequest {
   quantity: number;
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(
+  request: NextRequest
+) {
   try {
     const body =
       (await request.json()) as CreatePaymentRequest;
@@ -31,7 +37,7 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // ---------------------------------------------
-    // Validate fields
+    // Validate required fields
     // ---------------------------------------------
 
     if (
@@ -44,7 +50,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "All fields are required.",
+          message:
+            "All fields are required.",
         },
         { status: 400 }
       );
@@ -62,7 +69,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Quantity must be between 1 and 10.",
+          message:
+            "Quantity must be between 1 and 10.",
         },
         { status: 400 }
       );
@@ -76,7 +84,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid mobile number.",
+          message:
+            "Invalid mobile number.",
         },
         { status: 400 }
       );
@@ -93,15 +102,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid email address.",
+          message:
+            "Invalid email address.",
         },
         { status: 400 }
       );
     }
 
     // ---------------------------------------------
-    // IMPORTANT:
-    // Get ticket price ONLY from server
+    // Get ticket FROM SERVER
     // ---------------------------------------------
 
     const ticket = getTicket(ticketType);
@@ -110,25 +119,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid ticket type.",
+          message:
+            "Invalid ticket type.",
         },
         { status: 400 }
       );
     }
 
     // ---------------------------------------------
-    // Calculate price server-side
+    // Calculate price FROM SERVER
     // ---------------------------------------------
 
     const totalAmount =
       ticket.price * quantity;
 
-    // ₹299 -> 29900 paise
     const amountInPaise =
       totalAmount * 100;
 
     // ---------------------------------------------
-    // Generate server-side order ID
+    // Generate order ID
     // ---------------------------------------------
 
     const merchantOrderId =
@@ -137,32 +146,60 @@ export async function POST(request: NextRequest) {
     // ---------------------------------------------
     // Create PhonePe payment
     // ---------------------------------------------
-const phonePeResponse =
-  await createPhonePePayment({
-    merchantOrderId,
 
-    amount: amountInPaise,
+    const orderToken =
+      createPaymentOrderToken({
+        merchantOrderId,
 
-    customerName: fullName,
+        customerName: fullName,
 
-    email,
+        customerEmail: email,
 
-    mobile,
+        mobile,
 
-    ticketType,
+        ticketType,
 
-    ticketName: ticket.name,
+        ticketName: ticket.name,
 
-    quantity,
-  });
+        quantity,
+
+        amount: totalAmount,
+      });
+
+      const redirectUrl =
+  `${process.env.NEXT_PUBLIC_APP_URL}/payment/success` +
+  `?orderId=${encodeURIComponent(
+    merchantOrderId
+  )}` +
+  `&token=${encodeURIComponent(
+    orderToken
+  )}`;
+
+    const phonePeResponse =
+      await createPhonePePayment({
+        merchantOrderId,
+
+        amount: amountInPaise,
+
+        customerName: fullName,
+
+        email,
+
+        mobile,
+
+        ticketType,
+
+        ticketName: ticket.name,
+
+        quantity,
+        redirectUrl,
+      });
 
     // ---------------------------------------------
     // Extract checkout URL
     // ---------------------------------------------
 
-    const redirectUrl =
-      phonePeResponse?.redirectUrl ||
-      phonePeResponse?.data?.redirectUrl;
+    
 
     if (!redirectUrl) {
       console.error(
@@ -175,10 +212,18 @@ const phonePeResponse =
       );
     }
 
+    // ---------------------------------------------
+    // Create signed order token
+    // ---------------------------------------------
+
+    
+
     return NextResponse.json({
       success: true,
 
       orderId: merchantOrderId,
+
+      orderToken,
 
       redirectUrl,
 
@@ -202,12 +247,15 @@ const phonePeResponse =
     return NextResponse.json(
       {
         success: false,
+
         message:
           error instanceof Error
             ? error.message
             : "Unable to create payment.",
       },
-      { status: 500 }
+      {
+        status: 500,
+      }
     );
   }
 }
