@@ -42,7 +42,7 @@ export default function Events() {
       id="events"
       className="relative py-32 px-6 bg-forest-deep overflow-hidden"
     >
-           <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto">
 
         <div className="text-center mb-20">
           <p className="uppercase tracking-[0.4em] text-gold text-xl mb-4">
@@ -79,14 +79,37 @@ export default function Events() {
               An unforgettable instrumental concert where music, energy, and creativity come alive.
             </p>
 
-            <h3 className="font-display text-5xl text-off-white mb-6">
+            <h3 className="font-display text-5xl text-off-white mb-4">
               November 14<sup>th</sup>
             </h3>
 
-            <p className="text-warm-gray leading-relaxed mb-10">
-             Kingdom Alive is a gospel instrumental concert that brings together powerful music, creative expression, and united hearts to celebrate Jesus and inspire a generation to live boldly for His Kingdom.
-            </p>
+            <div className="flex items-center gap-3 text-gold mb-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 21s8-4.5 8-10a8 8 0 10-16 0c0 5.5 8 10 8 10z"
+                />
+                <circle cx="12" cy="11" r="2.5" />
+              </svg>
 
+              <span className="text-sm uppercase tracking-[0.2em]">
+                SMPC International Worship Centre
+              </span>
+            </div>
+
+            <p className="text-warm-gray leading-relaxed mb-10">
+              Kingdom Alive is a gospel instrumental concert that brings together
+              powerful music, creative expression, and united hearts to celebrate
+              Jesus and inspire a generation to live boldly for His Kingdom.
+            </p>
             {/* Countdown */}
 
             <div className="grid grid-cols-4 gap-4 mb-10">
@@ -114,21 +137,30 @@ export default function Events() {
 
             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-6">
 
-          <a
-            href="/tickets"
-            className="px-12 py-4 rounded-lg bg-[#D4AF37] text-black font-semibold uppercase tracking-[0.25em] transition duration-300 hover:bg-[#E5BF49] hover:scale-105"
-          >
-            Event Passes
-          </a>
+              <a
+                href="/tickets"
+                className="px-12 py-4 rounded-lg bg-[#D4AF37] text-black font-semibold uppercase tracking-[0.25em] transition duration-300 hover:bg-[#E5BF49] hover:scale-105"
+              >
+                Event Passes
+              </a>
 
-          <a
-            href="#contact"
-            className="px-12 py-4 rounded-lg border border-[#D4AF37] text-[#D4AF37] uppercase tracking-[0.25em] transition duration-300 hover:bg-[#D4AF37] hover:text-black hover:scale-105"
-          >
-            Register as Sponsor
-          </a>
+              <a
+                href="#contact"
+                className="px-12 py-4 rounded-lg border border-[#D4AF37] text-[#D4AF37] uppercase tracking-[0.25em] transition duration-300 hover:bg-[#D4AF37] hover:text-black hover:scale-105"
+              >
+                Register as Sponsor
+              </a>
 
-        </div>
+              <a
+                href="https://maps.app.goo.gl/WPC3n76YrmS9eHMu6?g_st=ac"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-12 py-4 rounded-lg border border-[#D4AF37] text-[#D4AF37] uppercase tracking-[0.25em] transition duration-300 hover:bg-[#D4AF37] hover:text-black hover:scale-105"
+              >
+                View Location
+              </a>
+
+            </div>
           </div>
 
         </div>

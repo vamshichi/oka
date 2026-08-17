@@ -137,15 +137,24 @@ export async function POST(request: NextRequest) {
     // ---------------------------------------------
     // Create PhonePe payment
     // ---------------------------------------------
+const phonePeResponse =
+  await createPhonePePayment({
+    merchantOrderId,
 
-    const phonePeResponse =
-      await createPhonePePayment({
-        merchantOrderId,
-        amount: amountInPaise,
-        customerName: fullName,
-        email,
-        mobile,
-      });
+    amount: amountInPaise,
+
+    customerName: fullName,
+
+    email,
+
+    mobile,
+
+    ticketType,
+
+    ticketName: ticket.name,
+
+    quantity,
+  });
 
     // ---------------------------------------------
     // Extract checkout URL

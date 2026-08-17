@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { getPhonePeOrderStatus } from "@/lib/phonepe";
+import {
+  sendPaymentConfirmationEmail,
+} from "@/lib/email";
+
+import { getTicket } from "@/lib/tickets";
 
 export async function GET(
   request: NextRequest

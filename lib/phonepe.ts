@@ -122,6 +122,9 @@ export async function createPhonePePayment(params: {
   customerName: string;
   email: string;
   mobile: string;
+  ticketType: string;
+  ticketName: string;
+  quantity: number;
 }) {
   const config = getPhonePeConfig();
 
@@ -139,10 +142,12 @@ export async function createPhonePePayment(params: {
     expireAfter: 1200,
 
     metaInfo: {
-      udf1: params.customerName,
-      udf2: params.email,
-      udf3: params.mobile,
-    },
+  udf1: params.customerName,
+  udf2: params.email,
+  udf3: params.mobile,
+  udf4: params.ticketType,
+  udf5: String(params.quantity),
+},
 
     redirectUrl: `${config.appUrl}/payment/success?orderId=${encodeURIComponent(
       params.merchantOrderId
