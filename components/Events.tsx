@@ -82,29 +82,35 @@ export default function Events() {
             <h3 className="font-display text-5xl text-off-white mb-4">
               November 14<sup>th</sup>
             </h3>
+<div className="inline-flex items-center gap-4 mb-8 px-5 py-3 rounded-full bg-gold/10 border border-gold/30 backdrop-blur-sm shadow-[0_0_25px_rgba(212,175,55,0.08)]">
+  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gold/15 border border-gold/30">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-5 h-5 text-gold"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.5}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M12 21s8-4.5 8-10a8 8 0 10-16 0c0 5.5 8 10 8 10z"
+      />
+      <circle cx="12" cy="11" r="2.5" />
+    </svg>
+  </div>
 
-            <div className="flex items-center gap-3 text-gold mb-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 21s8-4.5 8-10a8 8 0 10-16 0c0 5.5 8 10 8 10z"
-                />
-                <circle cx="12" cy="11" r="2.5" />
-              </svg>
+  <div>
+    <p className="text-[10px] uppercase tracking-[0.3em] text-gold/70 mb-1">
+      Venue
+    </p>
 
-              <span className="text-sm uppercase tracking-[0.2em]">
-                SMPC International Worship Centre
-              </span>
-            </div>
-
+    <p className="font-display text-lg md:text-xl text-off-white tracking-wide">
+      SMPC International Worship Centre
+    </p>
+  </div>
+</div>
             <p className="text-warm-gray leading-relaxed mb-10">
               Kingdom Alive is a gospel instrumental concert that brings together
               powerful music, creative expression, and united hearts to celebrate
