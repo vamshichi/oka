@@ -50,13 +50,13 @@ export default function TicketCard({
 
       <div className="relative">
         {/* Featured label */}
-        {featured && (
+        {/* {featured && (
           <div className="mb-5 inline-flex rounded-full border border-[#c9a45c]/40 bg-[#c9a45c]/10 px-3 py-1">
             <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-[#d8b875]">
               Signature Experience
             </span>
           </div>
-        )}
+        )} */}
 
         {/* Title */}
         <h3 className="font-serif text-2xl font-medium tracking-wide text-[#f5f1e8] sm:text-3xl">
