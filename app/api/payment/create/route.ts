@@ -23,9 +23,28 @@ export async function POST(
   request: NextRequest
 ) {
   try {
-    const body =
-      (await request.json()) as CreatePaymentRequest;
+    let body: CreatePaymentRequest;
 
+try {
+  body =
+    (await request.json()) as CreatePaymentRequest;
+} catch (error) {
+  console.error(
+    "Invalid or empty payment request body:",
+    error
+  );
+
+  return NextResponse.json(
+    {
+      success: false,
+      message:
+        "Payment request body is empty or invalid.",
+    },
+    {
+      status: 400,
+    }
+  );
+}
     const {
       ticketType,
       fullName,
