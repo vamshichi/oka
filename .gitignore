@@ -27,3 +27,4 @@ build/
 
 # Cache
 .cache/
+/lib/generated/prisma

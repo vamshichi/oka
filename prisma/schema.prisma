@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+enum EmailStatus {
+  NOT_SENT
+  SENT
+  FAILED
+}
+
+model PaymentOrder {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  // -----------------------------------------
+  // Order
+  // -----------------------------------------
+
+  merchantOrderId String @unique
+
+  // -----------------------------------------
+  // Customer
+  // -----------------------------------------
+
+  customerName  String
+  customerEmail String
+  mobile        String
+
+  // -----------------------------------------
+  // Ticket
+  // -----------------------------------------
+
+  ticketType String
+  ticketName String
+  quantity   Int
+
+  // -----------------------------------------
+  // Payment
+  // -----------------------------------------
+
+  amount Int
+  currency String @default("INR")
+
+  paymentStatus PaymentStatus @default(PENDING)
+
+  phonePeOrderId String?
+
+  // -----------------------------------------
+  // Email
+  // -----------------------------------------
+
+  emailStatus EmailStatus @default(NOT_SENT)
+
+  // -----------------------------------------
+  // Timestamps
+  // -----------------------------------------
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

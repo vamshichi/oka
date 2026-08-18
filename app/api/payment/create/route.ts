@@ -1,3 +1,5 @@
+// app/api/payment/create/route.ts
+
 import { NextRequest, NextResponse } from "next/server";
 
 import {
@@ -6,6 +8,8 @@ import {
 } from "@/lib/phonepe";
 
 import { getTicket } from "@/lib/tickets";
+
+import { prisma } from "@/lib/prisma";
 
 interface CreatePaymentRequest {
   ticketType: string;
@@ -30,6 +34,10 @@ export async function POST(
       quantity,
     } = body;
 
+    // ---------------------------------------------
+    // Validate required fields
+    // ---------------------------------------------
+
     if (
       !ticketType ||
       !fullName ||
@@ -46,6 +54,10 @@ export async function POST(
       );
     }
 
+    // ---------------------------------------------
+    // Validate quantity
+    // ---------------------------------------------
+
     if (
       !Number.isInteger(quantity) ||
       quantity < 1 ||
@@ -61,16 +73,23 @@ export async function POST(
       );
     }
 
+    // ---------------------------------------------
+    // Validate mobile
+    // ---------------------------------------------
+
     if (!/^[0-9]{10}$/.test(mobile)) {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Invalid mobile number.",
+          message: "Invalid mobile number.",
         },
         { status: 400 }
       );
     }
+
+    // ---------------------------------------------
+    // Validate email
+    // ---------------------------------------------
 
     const emailRegex =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -86,6 +105,10 @@ export async function POST(
       );
     }
 
+    // ---------------------------------------------
+    // Get ticket from SERVER
+    // ---------------------------------------------
+
     const ticket = getTicket(ticketType);
 
     if (!ticket) {
@@ -99,39 +122,124 @@ export async function POST(
       );
     }
 
+    // ---------------------------------------------
+    // Calculate price on SERVER
+    // ---------------------------------------------
+
     const totalAmount =
       ticket.price * quantity;
 
     const amountInPaise =
       totalAmount * 100;
 
+    // ---------------------------------------------
+    // Generate unique merchant order ID
+    // ---------------------------------------------
+
     const merchantOrderId =
       generateMerchantOrderId();
 
-    const phonePeResponse =
-      await createPhonePePayment({
-        merchantOrderId,
+    // ---------------------------------------------
+    // STEP 1:
+    // Create PENDING order in MongoDB
+    // ---------------------------------------------
 
-        amount: amountInPaise,
+    const order =
+      await prisma.paymentOrder.create({
+        data: {
+          merchantOrderId,
 
-        customerName: fullName,
+          customerName: fullName,
 
-        email,
+          customerEmail: email,
 
-        mobile,
+          mobile,
 
-        ticketType,
+          ticketType,
 
-        ticketName: ticket.name,
+          ticketName: ticket.name,
 
-        quantity,
+          quantity,
+
+          amount: amountInPaise,
+
+          currency: "INR",
+
+          paymentStatus: "PENDING",
+
+          emailStatus: "NOT_SENT",
+        },
       });
+
+    console.log(
+      "MongoDB payment order created:",
+      order.id
+    );
+
+    // ---------------------------------------------
+    // STEP 2:
+    // Create PhonePe payment
+    // ---------------------------------------------
+
+    let phonePeResponse;
+
+    try {
+      phonePeResponse =
+        await createPhonePePayment({
+          merchantOrderId,
+
+          amount: amountInPaise,
+
+          customerName: fullName,
+
+          email,
+
+          mobile,
+
+          ticketType,
+
+          ticketName: ticket.name,
+
+          quantity,
+        });
+    } catch (phonePeError) {
+      // -------------------------------------------
+      // PhonePe creation failed
+      // Mark MongoDB order as FAILED
+      // -------------------------------------------
+
+      await prisma.paymentOrder.update({
+        where: {
+          merchantOrderId,
+        },
+
+        data: {
+          paymentStatus: "FAILED",
+        },
+      });
+
+      throw phonePeError;
+    }
+
+    // ---------------------------------------------
+    // Extract PhonePe checkout URL
+    // ---------------------------------------------
 
     const redirectUrl =
       phonePeResponse?.redirectUrl ||
       phonePeResponse?.data?.redirectUrl;
 
     if (!redirectUrl) {
+      await prisma.paymentOrder.update({
+        where: {
+          merchantOrderId,
+        },
+
+        data: {
+          paymentStatus: "FAILED",
+        },
+      });
+
       console.error(
         "PhonePe response:",
         phonePeResponse
@@ -142,6 +250,10 @@ export async function POST(
       );
     }
 
+    // ---------------------------------------------
+    // Return checkout URL
+    // ---------------------------------------------
+
     return NextResponse.json({
       success: true,
 
@@ -151,12 +263,15 @@ export async function POST(
 
       ticket: {
         type: ticketType,
+
         name: ticket.name,
+
         quantity,
       },
 
       amount: {
         rupees: totalAmount,
+
         paise: amountInPaise,
       },
     });
