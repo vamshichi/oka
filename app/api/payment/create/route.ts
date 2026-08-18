@@ -19,32 +19,26 @@ interface CreatePaymentRequest {
   quantity: number;
 }
 
-export async function POST(
-  request: NextRequest
-) {
+export async function POST(request: NextRequest) {
   try {
+    // ---------------------------------------------
+    // 1. Read request body
+    // ---------------------------------------------
+
     let body: CreatePaymentRequest;
 
-try {
-  body =
-    (await request.json()) as CreatePaymentRequest;
-} catch (error) {
-  console.error(
-    "Invalid or empty payment request body:",
-    error
-  );
-
-  return NextResponse.json(
-    {
-      success: false,
-      message:
-        "Payment request body is empty or invalid.",
-    },
-    {
-      status: 400,
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid payment request.",
+        },
+        { status: 400 }
+      );
     }
-  );
-}
+
     const {
       ticketType,
       fullName,
@@ -54,7 +48,7 @@ try {
     } = body;
 
     // ---------------------------------------------
-    // Validate required fields
+    // 2. Validate required fields
     // ---------------------------------------------
 
     if (
@@ -74,7 +68,7 @@ try {
     }
 
     // ---------------------------------------------
-    // Validate quantity
+    // 3. Validate quantity
     // ---------------------------------------------
 
     if (
@@ -93,7 +87,7 @@ try {
     }
 
     // ---------------------------------------------
-    // Validate mobile
+    // 4. Validate mobile
     // ---------------------------------------------
 
     if (!/^[0-9]{10}$/.test(mobile)) {
@@ -107,7 +101,7 @@ try {
     }
 
     // ---------------------------------------------
-    // Validate email
+    // 5. Validate email
     // ---------------------------------------------
 
     const emailRegex =
@@ -117,15 +111,14 @@ try {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Invalid email address.",
+          message: "Invalid email address.",
         },
         { status: 400 }
       );
     }
 
     // ---------------------------------------------
-    // Get ticket from SERVER
+    // 6. Get ticket from SERVER
     // ---------------------------------------------
 
     const ticket = getTicket(ticketType);
@@ -134,15 +127,14 @@ try {
       return NextResponse.json(
         {
           success: false,
-          message:
-            "Invalid ticket type.",
+          message: "Invalid ticket type.",
         },
         { status: 400 }
       );
     }
 
     // ---------------------------------------------
-    // Calculate price on SERVER
+    // 7. Calculate amount SERVER-SIDE
     // ---------------------------------------------
 
     const totalAmount =
@@ -152,18 +144,17 @@ try {
       totalAmount * 100;
 
     // ---------------------------------------------
-    // Generate unique merchant order ID
+    // 8. Generate merchant order ID
     // ---------------------------------------------
 
     const merchantOrderId =
       generateMerchantOrderId();
 
     // ---------------------------------------------
-    // STEP 1:
-    // Create PENDING order in MongoDB
+    // 9. CREATE MONGODB ORDER
     // ---------------------------------------------
 
-    const order =
+    try {
       await prisma.paymentOrder.create({
         data: {
           merchantOrderId,
@@ -190,14 +181,28 @@ try {
         },
       });
 
-    console.log(
-      "MongoDB payment order created:",
-      order.id
-    );
+      console.log(
+        "MongoDB payment order created:",
+        merchantOrderId
+      );
+    } catch (databaseError) {
+      console.error(
+        "MongoDB order creation failed:",
+        databaseError
+      );
+
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "Unable to create payment order. Please try again.",
+        },
+        { status: 500 }
+      );
+    }
 
     // ---------------------------------------------
-    // STEP 2:
-    // Create PhonePe payment
+    // 10. CREATE PHONEPE PAYMENT
     // ---------------------------------------------
 
     let phonePeResponse;
@@ -222,26 +227,43 @@ try {
           quantity,
         });
     } catch (phonePeError) {
-      // -------------------------------------------
-      // PhonePe creation failed
-      // Mark MongoDB order as FAILED
-      // -------------------------------------------
+      console.error(
+        "PhonePe payment creation failed:",
+        phonePeError
+      );
 
-      await prisma.paymentOrder.update({
-        where: {
-          merchantOrderId,
+      // Mark database order as failed
+      try {
+        await prisma.paymentOrder.update({
+          where: {
+            merchantOrderId,
+          },
+
+          data: {
+            paymentStatus: "FAILED",
+          },
+        });
+      } catch (databaseError) {
+        console.error(
+          "Failed to update payment order:",
+          databaseError
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            phonePeError instanceof Error
+              ? phonePeError.message
+              : "Unable to create PhonePe payment.",
         },
-
-        data: {
-          paymentStatus: "FAILED",
-        },
-      });
-
-      throw phonePeError;
+        { status: 500 }
+      );
     }
 
     // ---------------------------------------------
-    // Extract PhonePe checkout URL
+    // 11. Get PhonePe redirect URL
     // ---------------------------------------------
 
     const redirectUrl =
@@ -249,28 +271,40 @@ try {
       phonePeResponse?.data?.redirectUrl;
 
     if (!redirectUrl) {
-      await prisma.paymentOrder.update({
-        where: {
-          merchantOrderId,
-        },
-
-        data: {
-          paymentStatus: "FAILED",
-        },
-      });
-
       console.error(
         "PhonePe response:",
         phonePeResponse
       );
 
-      throw new Error(
-        "PhonePe did not return a checkout URL."
+      try {
+        await prisma.paymentOrder.update({
+          where: {
+            merchantOrderId,
+          },
+
+          data: {
+            paymentStatus: "FAILED",
+          },
+        });
+      } catch (databaseError) {
+        console.error(
+          "Failed to mark order failed:",
+          databaseError
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            "PhonePe did not return a checkout URL.",
+        },
+        { status: 500 }
       );
     }
 
     // ---------------------------------------------
-    // Return checkout URL
+    // 12. SUCCESS
     // ---------------------------------------------
 
     return NextResponse.json({
@@ -282,36 +316,30 @@ try {
 
       ticket: {
         type: ticketType,
-
         name: ticket.name,
-
         quantity,
       },
 
       amount: {
         rupees: totalAmount,
-
         paise: amountInPaise,
       },
     });
   } catch (error) {
     console.error(
-      "Create PhonePe payment error:",
+      "Create payment error:",
       error
     );
 
     return NextResponse.json(
       {
         success: false,
-
         message:
           error instanceof Error
             ? error.message
             : "Unable to create payment.",
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
