@@ -143,17 +143,29 @@ export async function createPhonePePayment(params: {
 }) {
   const config = getPhonePeConfig();
 
-  const accessToken =
-    await getPhonePeAccessToken();
+  console.log("========== PHONEPE PAYMENT ==========");
+  console.log("Environment:", config.environment);
+  console.log("Base URL:", getPhonePeBaseUrl());
+  console.log("Auth URL:", getPhonePeAuthUrl());
+  console.log("App URL:", config.appUrl);
+  console.log("Client ID:", config.clientId);
+  console.log("Client Version:", config.clientVersion);
+  console.log("Merchant Order ID:", params.merchantOrderId);
+  console.log("Amount:", params.amount);
+  console.log("======================================");
+
+  const accessToken = await getPhonePeAccessToken();
+
+  console.log("PhonePe access token received");
+
+  const redirectUrl =
+    `${config.appUrl}/payment/success?orderId=` +
+    encodeURIComponent(params.merchantOrderId);
 
   const payload = {
     merchantOrderId: params.merchantOrderId,
 
     amount: params.amount,
-
-    paymentFlow: {
-      type: "PG_CHECKOUT",
-    },
 
     expireAfter: 1200,
 
@@ -165,35 +177,63 @@ export async function createPhonePePayment(params: {
       udf5: String(params.quantity),
     },
 
-    redirectUrl:
-      `${config.appUrl}/payment/success?orderId=` +
-      encodeURIComponent(
-        params.merchantOrderId
-      ),
+    paymentFlow: {
+      type: "PG_CHECKOUT",
 
-    redirectMode: "REDIRECT",
+      merchantUrls: {
+        redirectUrl,
+      },
+    },
   };
 
-  const response = await fetch(
-    `${getPhonePeBaseUrl()}/checkout/v2/pay`,
-    {
-      method: "POST",
-
-      headers: {
-        "Content-Type":
-          "application/json",
-
-        Authorization:
-          `O-Bearer ${accessToken}`,
-      },
-
-      body: JSON.stringify(payload),
-
-      cache: "no-store",
-    }
+  console.log(
+    "PhonePe payload:",
+    JSON.stringify(payload, null, 2)
   );
 
-  const data = await response.json();
+  const paymentUrl =
+    `${getPhonePeBaseUrl()}/checkout/v2/pay`;
+
+  console.log(
+    "Calling PhonePe payment API:",
+    paymentUrl
+  );
+
+  const response = await fetch(paymentUrl, {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `O-Bearer ${accessToken}`,
+    },
+
+    body: JSON.stringify(payload),
+
+    cache: "no-store",
+  });
+
+  const rawResponse = await response.text();
+
+  console.log(
+    "PhonePe HTTP status:",
+    response.status
+  );
+
+  console.log(
+    "PhonePe raw response:",
+    rawResponse
+  );
+
+  let data: any;
+
+  try {
+    data = JSON.parse(rawResponse);
+  } catch {
+    throw new Error(
+      `PhonePe returned invalid JSON. HTTP ${response.status}`
+    );
+  }
 
   if (!response.ok) {
     console.error(
@@ -204,9 +244,30 @@ export async function createPhonePePayment(params: {
     throw new Error(
       data?.message ||
         data?.error ||
-        "Unable to create PhonePe payment"
+        data?.code ||
+        `PhonePe payment failed with HTTP ${response.status}`
     );
   }
+
+  if (!data?.redirectUrl) {
+    console.error(
+      "PhonePe response does not contain redirectUrl:",
+      data
+    );
+
+    throw new Error(
+      "PhonePe did not return a checkout URL"
+    );
+  }
+
+  console.log(
+    "PhonePe payment created successfully"
+  );
+
+  console.log(
+    "Redirect URL received:",
+    data.redirectUrl
+  );
 
   return data;
 }

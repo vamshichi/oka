@@ -1,7 +1,7 @@
 // app/api/payment/create/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-
+export const runtime = "nodejs";
 import {
   createPhonePePayment,
   generateMerchantOrderId,
