@@ -11,7 +11,7 @@ export async function GET(
 ) {
   try {
     // ---------------------------------------------
-    // 1. Get merchant order ID
+    // GET ORDER ID
     // ---------------------------------------------
 
     const { searchParams } =
@@ -26,14 +26,12 @@ export async function GET(
           success: false,
           message: "Order ID is required.",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
 
     // ---------------------------------------------
-    // 2. Validate order ID
+    // VALIDATE ORDER ID
     // ---------------------------------------------
 
     if (
@@ -46,14 +44,25 @@ export async function GET(
           success: false,
           message: "Invalid order ID.",
         },
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
 
+    console.log(
+      "===================================="
+    );
+
+    console.log(
+      "OAK PAYMENT STATUS"
+    );
+
+    console.log(
+      "Merchant Order ID:",
+      merchantOrderId
+    );
+
     // ---------------------------------------------
-    // 3. Find order in MongoDB
+    // FIND ORDER
     // ---------------------------------------------
 
     const order =
@@ -64,25 +73,33 @@ export async function GET(
       });
 
     if (!order) {
+      console.error(
+        "Order not found:",
+        merchantOrderId
+      );
+
       return NextResponse.json(
         {
           success: false,
           message: "Payment order not found.",
         },
-        {
-          status: 404,
-        }
+        { status: 404 }
       );
     }
 
     console.log(
-      "MongoDB order found:",
-      merchantOrderId,
-      order.paymentStatus
+      "MongoDB order:",
+      {
+        id: order.id,
+        paymentStatus:
+          order.paymentStatus,
+        emailStatus:
+          order.emailStatus,
+      }
     );
 
     // ---------------------------------------------
-    // 4. Ask PhonePe for REAL payment status
+    // GET REAL PHONEPE STATUS
     // ---------------------------------------------
 
     const phonePeResponse =
@@ -91,13 +108,9 @@ export async function GET(
       );
 
     console.log(
-      "PhonePe order status:",
+      "PhonePe response:",
       phonePeResponse
     );
-
-    // ---------------------------------------------
-    // 5. Get payment state
-    // ---------------------------------------------
 
     const state =
       phonePeResponse?.state ||
@@ -113,59 +126,54 @@ export async function GET(
       phonePeResponse?.data?.amount ||
       order.amount;
 
+    console.log(
+      "PhonePe state:",
+      state
+    );
+
     // =============================================
-    // PAYMENT SUCCESS
+    // SUCCESS
     // =============================================
 
     if (state === "COMPLETED") {
       console.log(
-        "✅ PhonePe payment COMPLETED:",
+        "Payment COMPLETED:",
         merchantOrderId
       );
 
       // -------------------------------------------
-      // 6. Update MongoDB payment status
+      // UPDATE PAYMENT STATUS
       // -------------------------------------------
 
-      let updatedOrder = order;
+      const updatedOrder =
+        await prisma.paymentOrder.update({
+          where: {
+            merchantOrderId,
+          },
 
-      if (
-        order.paymentStatus !== "SUCCESS"
-      ) {
-        updatedOrder =
-          await prisma.paymentOrder.update({
-            where: {
-              merchantOrderId,
-            },
+          data: {
+            paymentStatus: "SUCCESS",
+            phonePeOrderId,
+          },
+        });
 
-            data: {
-              paymentStatus: "SUCCESS",
+      console.log(
+        "MongoDB updated:",
+        updatedOrder.paymentStatus
+      );
 
-              phonePeOrderId,
-            },
-          });
-
-        console.log(
-          "✅ MongoDB order marked SUCCESS:",
-          merchantOrderId
-        );
-      } else {
-        console.log(
-          "MongoDB order already SUCCESS:",
-          merchantOrderId
-        );
-      }
+      let emailStatus =
+        updatedOrder.emailStatus;
 
       // -------------------------------------------
-      // 7. SEND EMAIL ONLY ONCE
+      // SEND EMAIL ONLY IF NOT ALREADY SENT
       // -------------------------------------------
 
       if (
-        updatedOrder.emailStatus ===
-        "NOT_SENT"
+        emailStatus !== "SENT"
       ) {
         console.log(
-          "📧 Sending payment confirmation emails..."
+          "Sending payment confirmation email..."
         );
 
         try {
@@ -198,7 +206,7 @@ export async function GET(
           });
 
           // ---------------------------------------
-          // 8. Mark email as SENT
+          // EMAIL SUCCESS
           // ---------------------------------------
 
           await prisma.paymentOrder.update({
@@ -211,43 +219,49 @@ export async function GET(
             },
           });
 
+          emailStatus = "SENT";
+
           console.log(
-            "✅ Payment emails sent successfully."
+            "EMAIL SENT SUCCESSFULLY"
           );
 
         } catch (emailError) {
           console.error(
-            "❌ Payment email failed:",
+            "EMAIL SENDING FAILED:",
             emailError
           );
 
-          // ---------------------------------------
-          // Mark email as FAILED
-          // ---------------------------------------
+          // Don't change payment status.
+          // Payment is already successful.
 
-          await prisma.paymentOrder.update({
-            where: {
-              merchantOrderId,
-            },
+          emailStatus = "FAILED";
 
-            data: {
-              emailStatus: "FAILED",
-            },
-          });
+          try {
+            await prisma.paymentOrder.update({
+              where: {
+                merchantOrderId,
+              },
 
-          // IMPORTANT:
-          // Payment is still SUCCESS.
-          // Only email failed.
+              data: {
+                emailStatus: "FAILED",
+              },
+            });
+          } catch (dbError) {
+            console.error(
+              "Could not update email status:",
+              dbError
+            );
+          }
         }
       } else {
         console.log(
-          "📧 Email already processed:",
-          updatedOrder.emailStatus
+          "Email already sent:",
+          emailStatus
         );
       }
 
       // -------------------------------------------
-      // 9. Return SUCCESS
+      // RETURN SUCCESS
       // -------------------------------------------
 
       return NextResponse.json({
@@ -263,45 +277,30 @@ export async function GET(
 
         state,
 
-        emailStatus:
-          updatedOrder.emailStatus,
+        emailStatus,
       });
     }
 
     // =============================================
-    // PAYMENT FAILED
+    // FAILED
     // =============================================
 
     if (state === "FAILED") {
       console.log(
-        "❌ PhonePe payment FAILED:",
+        "Payment FAILED:",
         merchantOrderId
       );
 
-      // -------------------------------------------
-      // Update MongoDB
-      // -------------------------------------------
+      await prisma.paymentOrder.update({
+        where: {
+          merchantOrderId,
+        },
 
-      if (
-        order.paymentStatus !== "FAILED"
-      ) {
-        await prisma.paymentOrder.update({
-          where: {
-            merchantOrderId,
-          },
-
-          data: {
-            paymentStatus: "FAILED",
-
-            phonePeOrderId,
-          },
-        });
-
-        console.log(
-          "❌ MongoDB order marked FAILED:",
-          merchantOrderId
-        );
-      }
+        data: {
+          paymentStatus: "FAILED",
+          phonePeOrderId,
+        },
+      });
 
       return NextResponse.json({
         success: true,
@@ -317,11 +316,11 @@ export async function GET(
     }
 
     // =============================================
-    // PAYMENT PENDING
+    // PENDING
     // =============================================
 
     console.log(
-      "⏳ PhonePe payment still pending:",
+      "Payment still pending:",
       merchantOrderId,
       state
     );
@@ -335,16 +334,13 @@ export async function GET(
 
       phonePeOrderId,
 
-      state: state || "UNKNOWN",
+      state:
+        state || "UNKNOWN",
     });
 
   } catch (error) {
-    // ---------------------------------------------
-    // GLOBAL ERROR
-    // ---------------------------------------------
-
     console.error(
-      "Payment status error:",
+      "PAYMENT STATUS API ERROR:",
       error
     );
 
