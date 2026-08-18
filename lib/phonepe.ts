@@ -158,9 +158,13 @@ export async function createPhonePePayment(params: {
 
   console.log("PhonePe access token received");
 
-  const redirectUrl =
-    `${config.appUrl}/payment/success?orderId=` +
-    encodeURIComponent(params.merchantOrderId);
+  const appUrl = config.appUrl.replace(/\/+$/, "");
+
+const redirectUrl =
+  `${appUrl}/payment/success?orderId=` +
+  encodeURIComponent(
+    params.merchantOrderId
+  );
 
   const payload = {
     merchantOrderId: params.merchantOrderId,
