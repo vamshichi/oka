@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useState,
+} from "react";
+
 import Link from "next/link";
+
 import {
   CheckCircle2,
   XCircle,
@@ -9,6 +15,8 @@ import {
   ArrowLeft,
   Ticket,
 } from "lucide-react";
+
+import { useSearchParams } from "next/navigation";
 
 type PaymentStatus =
   | "loading"
@@ -18,27 +26,30 @@ type PaymentStatus =
 
 interface PaymentResult {
   success: boolean;
+
   paymentStatus:
     | "SUCCESS"
     | "FAILED"
     | "PENDING";
+
   orderId: string;
+
   phonePeOrderId?: string;
+
   amount?: number | null;
+
   state?: string;
+
   message?: string;
+
+  emailStatus?: string;
 }
 
-interface PaymentSuccessPageProps {
-  searchParams: {
-    orderId?: string;
-  };
-}
+function PaymentSuccessContent() {
+  const searchParams = useSearchParams();
 
-export default function PaymentSuccessPage({
-  searchParams,
-}: PaymentSuccessPageProps) {
-  const orderId = searchParams?.orderId ?? "";
+  const orderId =
+    searchParams.get("orderId") || "";
 
   const [status, setStatus] =
     useState<PaymentStatus>("loading");
@@ -56,6 +67,11 @@ export default function PaymentSuccessPage({
 
     async function verifyPayment() {
       try {
+        console.log(
+          "Verifying payment:",
+          orderId
+        );
+
         const response = await fetch(
           `/api/payment/status?orderId=${encodeURIComponent(
             orderId
@@ -68,6 +84,11 @@ export default function PaymentSuccessPage({
 
         const data =
           (await response.json()) as PaymentResult;
+
+        console.log(
+          "Payment verification response:",
+          data
+        );
 
         if (cancelled) {
           return;
@@ -84,6 +105,7 @@ export default function PaymentSuccessPage({
         }
 
         if (
+          data.success &&
           data.paymentStatus === "FAILED"
         ) {
           setStatus("failed");
@@ -110,9 +132,10 @@ export default function PaymentSuccessPage({
     };
   }, [orderId]);
 
-  /*
-   * LOADING
-   */
+  // ============================================
+  // LOADING
+  // ============================================
+
   if (status === "loading") {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#090909] px-6">
@@ -135,13 +158,20 @@ export default function PaymentSuccessPage({
     );
   }
 
-  /*
-   * SUCCESS
-   */
+  // ============================================
+  // SUCCESS
+  // ============================================
+
   if (status === "success") {
+    const amount =
+      payment?.amount != null
+        ? payment.amount / 100
+        : null;
+
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#090909] px-4 py-12">
         <div className="w-full max-w-lg rounded-2xl border border-[#2b2a25] bg-[#11110f] p-7 text-center shadow-2xl sm:p-10">
+
           <CheckCircle2
             size={64}
             strokeWidth={1.5}
@@ -162,7 +192,9 @@ export default function PaymentSuccessPage({
           </p>
 
           <div className="mt-8 rounded-xl border border-[#2b2a25] bg-[#0b0b0a] p-5 text-left">
+
             <div className="flex items-center gap-3 border-b border-[#2b2a25] pb-4">
+
               <Ticket
                 size={20}
                 className="text-[#c9a45c]"
@@ -177,24 +209,29 @@ export default function PaymentSuccessPage({
                   The OAK Project Pass
                 </p>
               </div>
+
             </div>
 
             <div className="space-y-4 pt-5">
+
               <div className="flex justify-between gap-4">
+
                 <span className="text-sm text-[#77736c]">
                   Amount Paid
                 </span>
 
                 <span className="text-sm font-semibold text-[#d8b875]">
-                  {payment?.amount != null
-                    ? `₹${(
-                        payment.amount / 100
-                      ).toLocaleString("en-IN")}`
+                  {amount !== null
+                    ? `₹${amount.toLocaleString(
+                        "en-IN"
+                      )}`
                     : "Confirmed"}
                 </span>
+
               </div>
 
               <div className="flex justify-between gap-4">
+
                 <span className="text-sm text-[#77736c]">
                   PhonePe Order ID
                 </span>
@@ -204,11 +241,14 @@ export default function PaymentSuccessPage({
                     payment?.orderId ||
                     orderId}
                 </span>
+
               </div>
+
             </div>
           </div>
 
           <div className="mt-7 grid gap-3 sm:grid-cols-2">
+
             <Link
               href="/"
               className="flex items-center justify-center gap-2 rounded-xl border border-[#3a3832] px-5 py-3.5 text-sm font-medium text-[#f5f1e8] transition hover:border-[#c9a45c]/60 hover:bg-white/[0.03]"
@@ -218,24 +258,29 @@ export default function PaymentSuccessPage({
             </Link>
 
             <Link
-              href="/#tickets"
+              href="/tickets"
               className="flex items-center justify-center rounded-xl bg-[#c9a45c] px-5 py-3.5 text-sm font-semibold text-[#11110f] transition hover:bg-[#dfc27e]"
             >
               Buy Another Pass
             </Link>
+
           </div>
+
         </div>
       </main>
     );
   }
 
-  /*
-   * PENDING
-   */
+  // ============================================
+  // PENDING
+  // ============================================
+
   if (status === "pending") {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#090909] px-4 py-12">
+
         <div className="w-full max-w-lg rounded-2xl border border-[#2b2a25] bg-[#11110f] p-8 text-center">
+
           <Loader2
             size={54}
             className="mx-auto animate-spin text-[#c9a45c]"
@@ -257,17 +302,22 @@ export default function PaymentSuccessPage({
             <ArrowLeft size={16} />
             Back to Home
           </Link>
+
         </div>
+
       </main>
     );
   }
 
-  /*
-   * FAILED
-   */
+  // ============================================
+  // FAILED
+  // ============================================
+
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#090909] px-4 py-12">
+
       <div className="w-full max-w-lg rounded-2xl border border-[#2b2a25] bg-[#11110f] p-8 text-center sm:p-10">
+
         <XCircle
           size={64}
           strokeWidth={1.5}
@@ -288,7 +338,7 @@ export default function PaymentSuccessPage({
         </p>
 
         <Link
-          href="/#tickets"
+          href="/tickets"
           className="mt-8 inline-flex items-center justify-center rounded-xl bg-[#c9a45c] px-8 py-3.5 text-sm font-semibold text-[#11110f] transition hover:bg-[#dfc27e]"
         >
           Try Again
@@ -303,7 +353,30 @@ export default function PaymentSuccessPage({
             Back to Home
           </Link>
         </div>
+
       </div>
+
     </main>
+  );
+}
+
+// ============================================
+// SUSPENSE WRAPPER
+// ============================================
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-[#090909]">
+          <Loader2
+            size={42}
+            className="animate-spin text-[#c9a45c]"
+          />
+        </main>
+      }
+    >
+      <PaymentSuccessContent />
+    </Suspense>
   );
 }
