@@ -83,7 +83,7 @@ export default function TicketSection() {
               }
             />
 
-            <TicketCard
+            {/* <TicketCard
               title="Sponsorship Pass"
               price={9999}
               description="Sow into the vision. Invest in the Kingdom."
@@ -91,7 +91,7 @@ export default function TicketSection() {
               onBuy={() =>
                 handleBuy("SPONSORSHIP")
               }
-            />
+            /> */}
 
           </div>
         </div>
