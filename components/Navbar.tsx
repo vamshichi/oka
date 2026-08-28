@@ -2,15 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { href: "#about", label: "About Us" },
-  { href: "#band", label: "The Band" },
-  // { href: "#music", label: "Music" },
-  { href: "#events", label: "Events" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About Us" },
+  { href: "/#band", label: "The Band" },
+  // { href: "/#music", label: "Music" },
+  { href: "/#events", label: "Events" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -18,10 +17,32 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
     window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
+  // Force navigation to homepage section
+  const handleSectionClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+
+    setOpen(false);
+
+    // Extract the hash
+    const hash = href.split("#")[1];
+
+    // Always navigate to homepage first
+    window.location.href = `/#${hash}`;
+  };
 
   return (
     <nav
@@ -32,8 +53,14 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="#hero" className="flex items-center gap-3 group">
+        {/* =========================
+            LOGO
+        ========================== */}
+        <a
+          href="/#hero"
+          onClick={(e) => handleSectionClick(e, "/#hero")}
+          className="flex items-center gap-3 group"
+        >
           <Image
             src="/images/oaklogo.png"
             alt="The OAK Project"
@@ -41,36 +68,48 @@ export default function Navbar() {
             height={72}
             className="rounded-full transition-transform duration-300 group-hover:scale-105"
           />
-          {/* <div className="hidden sm:block">
+
+          {/*
+          <div className="hidden sm:block">
             <p className="font-display text-xl font-semibold text-off-white leading-none tracking-wide">
               THE OAK PROJECT
             </p>
+
             <p className="text-xs text-gold tracking-[0.2em] uppercase mt-0.5">
               Gospel Instrumental Band
             </p>
-          </div> */}
-        </Link>
+          </div>
+          */}
+        </a>
 
-        {/* Desktop nav */}
+        {/* =========================
+            DESKTOP NAV
+        ========================== */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((l) => (
+          {navLinks.map((link) => (
             <a
-              key={l.href}
-              href={l.href}
+              key={link.href}
+              href={link.href}
+              onClick={(e) => handleSectionClick(e, link.href)}
               className="nav-link text-warm-gray hover:text-off-white text-sm tracking-wider uppercase transition-colors duration-200"
             >
-              {l.label}
+              {link.label}
             </a>
           ))}
+
+          {/* Book Us */}
           <a
-            href="#contact"
+            href="/#contact"
+            onClick={(e) => handleSectionClick(e, "/#contact")}
             className="ml-4 px-5 py-2 border border-gold text-gold text-sm tracking-wider uppercase hover:bg-gold hover:text-ink transition-all duration-300 rounded-sm"
           >
             Book Us
           </a>
         </div>
 
-        {/* Mobile menu toggle */}
+        {/* =========================
+            MOBILE MENU BUTTON
+        ========================== */}
         <button
           className="md:hidden text-off-white p-2"
           onClick={() => setOpen(!open)}
@@ -80,22 +119,26 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* =========================
+          MOBILE MENU
+      ========================== */}
       {open && (
         <div className="md:hidden bg-forest-deep/95 backdrop-blur-md border-t border-gold/10 py-6 px-6">
-          {navLinks.map((l) => (
+          {navLinks.map((link) => (
             <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
+              key={link.href}
+              href={link.href}
+              onClick={(e) => handleSectionClick(e, link.href)}
               className="block py-3 text-warm-gray hover:text-gold border-b border-white/5 text-sm tracking-widest uppercase transition-colors"
             >
-              {l.label}
+              {link.label}
             </a>
           ))}
+
+          {/* Mobile Book Us */}
           <a
-            href="#contact"
-            onClick={() => setOpen(false)}
+            href="/#contact"
+            onClick={(e) => handleSectionClick(e, "/#contact")}
             className="mt-5 block text-center py-3 border border-gold text-gold text-sm tracking-wider uppercase"
           >
             Book Us
